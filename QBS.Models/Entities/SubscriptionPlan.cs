@@ -7,9 +7,11 @@ namespace QABS.Models
       
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public SubscriptionType Type { get; set; }
 
-        
+        public SessionDurationType Duration { get; set; }
 
         /// <summary>السعر الشهري</summary>
         public decimal MonthlyFee { get; set; }

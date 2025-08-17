@@ -9,11 +9,9 @@ namespace QABS.Models
     {
         public void Configure(EntityTypeBuilder<Teacher> builder)
         {
-            builder.HasKey(t =>  t.Id);
+
             builder.Property(t => t.HourlyRate).IsRequired();
 
-
-           
 
             builder.HasMany(t => t.Enrollments)
                 .WithOne(en => en.Teacher)

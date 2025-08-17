@@ -9,18 +9,12 @@ namespace QABS.Models
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
-            builder.HasKey(st => st.Id);
 
             builder.HasMany(st => st.Enrollments)
                 .WithOne(en => en.Student)
                 .HasForeignKey(en => en.StudentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-
-            builder.HasMany(st => st.Sessions)
-                .WithOne(en => en.Student)
-                .HasForeignKey(en => en.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(t => t.User)
               .WithOne(u => u.Student)

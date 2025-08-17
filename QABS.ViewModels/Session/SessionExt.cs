@@ -1,8 +1,7 @@
 ﻿
 namespace QABS.ViewModels
 {
-    public class EnrollmentEditVM
+    public static class SessionExt
     {
-
     }
 }
