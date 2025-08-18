@@ -25,7 +25,7 @@ namespace QABS.ViewModels
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
 
-        public StudentPaymentCreateVM studentPayment { get; set; }
+        //public StudentPaymentCreateVM studentPayment { get; set; }
 
     }
 }

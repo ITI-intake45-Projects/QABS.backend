@@ -17,7 +17,7 @@ namespace QABS.Models
         public decimal MonthlyFee { get; set; } 
 
             // علاقة مع Enrollment
-        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>(); 
+        public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>(); 
        
 
     }

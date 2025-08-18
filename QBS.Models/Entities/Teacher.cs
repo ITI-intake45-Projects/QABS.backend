@@ -33,7 +33,7 @@ namespace QABS.Models
         public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public virtual ICollection<TeacherPayout> TeachersPayouts { get; set; } = new List<TeacherPayout>();
         // مواعيد التفرغ
-        public ICollection<TeacherAvailability> TeacherAvailabilities { get; set; } = new List<TeacherAvailability>();
+        public virtual ICollection<TeacherAvailability> TeacherAvailabilities { get; set; } = new List<TeacherAvailability>();
     }
 }
-}
+

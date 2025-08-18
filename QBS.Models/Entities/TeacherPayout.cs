@@ -8,13 +8,13 @@ namespace QABS.Models
     {
         public int Id { get; set; }
         public string TeacherId { get; set; }
-        public Teacher Teacher { get; set; } = default!;
+        public virtual Teacher Teacher { get; set; } = default!;
         public DateTime PaidAt { get; set; }
         public decimal TotalHours { get; set; }   // optional but useful
         public decimal TotalAmount { get; set; }  // HourlyRate * TotalHours
         public string? ImageUrl { get; set; }
         //public ICollection<PayoutItem> PayoutItems { get; set; } = new List<PayoutItem>();
-        public ICollection<Session> sessions { get; set; }
+        public virtual ICollection<Session> sessions { get; set; }
 
     }
 }
