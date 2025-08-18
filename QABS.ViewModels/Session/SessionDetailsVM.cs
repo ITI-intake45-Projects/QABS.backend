@@ -10,7 +10,7 @@ namespace QABS.ViewModels
         public int EnrollmentId { get; set; }
 
         //list of payout items
-        public List<PayoutItemDetailsVM> PayoutItemsDetails { get; set; } = new List<PayoutItemDetailsVM>();
+        //public List<PayoutItemDetailsVM> PayoutItemsDetails { get; set; } = new List<PayoutItemDetailsVM>();
 
     }
 }

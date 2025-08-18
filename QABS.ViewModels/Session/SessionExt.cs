@@ -21,7 +21,7 @@ namespace QABS.ViewModels
                 StartTime = session.StartTime,
                 Status = session.Status,
                 EnrollmentId = session.EnrollmentId,
-                PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
+                //PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
             };
         }
         public static Session ToEdit(this SessionEditVM newsession, Session OldSession)
