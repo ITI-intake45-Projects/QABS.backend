@@ -17,10 +17,10 @@ namespace QABS.Models.Configurations
             builder.Property(s => s.Status).HasDefaultValue(1);
 
 
-            builder.HasMany(s=> s.PayoutItems)
-                .WithOne(p => p.Session)
-                .HasForeignKey(p => p.SessionId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.HasMany(s=> s.PayoutItems)
+            //    .WithOne(p => p.Session)
+            //    .HasForeignKey(p => p.SessionId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
 
         }

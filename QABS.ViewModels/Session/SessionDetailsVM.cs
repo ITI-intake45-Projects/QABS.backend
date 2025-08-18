@@ -7,6 +7,8 @@ namespace QABS.ViewModels
         public int Id { get; set; }
         public DateTime StartTime { get; set; }
         public SessionStatus Status { get; set; }
+
+        public decimal Amount { get; set; }
         public int EnrollmentId { get; set; }
 
         //list of payout items

@@ -28,7 +28,7 @@ namespace QABS.ViewModels
         // معلومات إضافية
         public int TotalSessions => Sessions.Count();
         public SubscriptionPlanDetailsVM SubscriptionPlanDetails { get; set; }
-        public List<SessionDetailsVM> Sessions { get; set; } = new List<SessionDetailsVM>();
+        public List<SessionDetailsVM>? Sessions { get; set; } 
 
     }
 }

@@ -10,7 +10,11 @@ namespace QABS.ViewModels
             return new Session
             {
                 StartTime = vm.StartTime,
-                EnrollmentId = vm.EnrollmentId
+                EnrollmentId = vm.EnrollmentId,
+                Amount = vm.Amount,
+                //Amount = session.Enrollment.Teacher.HourlyRate * (decimal)((int)session.Enrollment.SubscriptionPlan.Duration/60.00),
+
+
             };
         }
         public static SessionDetailsVM ToDetails(this Session session)
@@ -21,6 +25,8 @@ namespace QABS.ViewModels
                 StartTime = session.StartTime,
                 Status = session.Status,
                 EnrollmentId = session.EnrollmentId,
+                Amount = session.Amount,
+               
                 //PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
             };
         }

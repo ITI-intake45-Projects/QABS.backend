@@ -11,7 +11,8 @@ namespace QABS.Models
         public Teacher Teacher { get; set; } = default!;
         public DateTime PaidAt { get; set; }
         public string? ImageUrl { get; set; }
-        public ICollection<PayoutItem> PayoutItems { get; set; } = new List<PayoutItem>();
+        //public ICollection<PayoutItem> PayoutItems { get; set; } = new List<PayoutItem>();
+        public ICollection<Session> sessions { get; set; }
 
     }
 }

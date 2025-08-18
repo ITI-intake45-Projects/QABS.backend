@@ -13,9 +13,9 @@ namespace QABS.Models
             
             builder.Property(tp => tp.ImageUrl).HasColumnType("NVARCHAR(MAX)");
 
-            builder.HasMany(tp => tp.PayoutItems)
-                .WithOne(p => p.TeacherPayout)
-                .HasForeignKey(p => p.TeacherPayoutId)
+            builder.HasMany(tp => tp.sessions)
+                .WithOne(s => s.TeacherPayout)
+                .HasForeignKey(s => s.TeacherPayoutId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

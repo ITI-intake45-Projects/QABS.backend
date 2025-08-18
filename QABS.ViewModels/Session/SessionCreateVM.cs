@@ -9,6 +9,8 @@ namespace QABS.ViewModels
         [Required]
         public DateTime StartTime { get; set; }
         public SessionStatus Status { get; set; } = SessionStatus.Scheduled;
+
+        public decimal Amount { get; set; }
       
         [Required]
         public int EnrollmentId { get; set; }
