@@ -7,9 +7,11 @@ namespace QABS.Models
     public class TeacherPayout
     {
         public int Id { get; set; }
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
         public Teacher Teacher { get; set; } = default!;
         public DateTime PaidAt { get; set; }
+        public decimal TotalHours { get; set; }   // optional but useful
+        public decimal TotalAmount { get; set; }  // HourlyRate * TotalHours
         public string? ImageUrl { get; set; }
         //public ICollection<PayoutItem> PayoutItems { get; set; } = new List<PayoutItem>();
         public ICollection<Session> sessions { get; set; }

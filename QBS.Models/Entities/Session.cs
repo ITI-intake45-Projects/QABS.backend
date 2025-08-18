@@ -15,7 +15,7 @@ namespace QABS.Models
         //public ICollection<PayoutItem> PayoutItems { get; set; } = new List<PayoutItem>();
 
         public int? TeacherPayoutId { get; set; }
-        public virtual TeacherPayout TeacherPayout { get; set;} 
+        public virtual TeacherPayout? TeacherPayout { get; set;} 
 
     }
 }
