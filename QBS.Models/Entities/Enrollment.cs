@@ -16,7 +16,7 @@ namespace QABS.Models
         public virtual Teacher Teacher { get; set; } = default!;
 
         public int SubscriptionPlanId { get; set; }
-        public virtual SubscriptionPlan SubscriptionPlan { get; set; }
+        public virtual SubscribtionPlan SubscriptionPlan { get; set; }
 
         //public SessionDurationType Duration { get; set; }
 

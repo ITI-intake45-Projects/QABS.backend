@@ -2,7 +2,7 @@
 
 namespace QABS.Models
 {
-    public class SubscriptionPlan
+    public class SubscribtionPlan
     {
       
         public int Id { get; set; }
@@ -14,10 +14,10 @@ namespace QABS.Models
         public SessionDurationType Duration { get; set; }
 
         /// <summary>السعر الشهري</summary>
-        public decimal MonthlyFee { get; set; }
+        public decimal MonthlyFee { get; set; } 
 
             // علاقة مع Enrollment
-        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>(); 
        
 
     }

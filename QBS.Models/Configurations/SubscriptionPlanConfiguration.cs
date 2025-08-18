@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace QABS.Models
 {
-    public class SubscriptionPlanConfiguration : IEntityTypeConfiguration<SubscriptionPlan>
+    public class SubscriptionPlanConfiguration : IEntityTypeConfiguration<SubscribtionPlan>
     {
-        public void Configure(EntityTypeBuilder<SubscriptionPlan> builder)
+        public void Configure(EntityTypeBuilder<SubscribtionPlan> builder)
         {
            builder.HasKey(x => x.Id);
 
