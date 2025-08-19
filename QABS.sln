@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QABS.ViewModels", "QABS.Vie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{8673630F-4D2A-4E24-A2E3-B3232125EB22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QABS.Repository", "QABS.Repository\QABS.Repository.csproj", "{B75C0BC6-4384-4822-A443-A07F59C551F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8673630F-4D2A-4E24-A2E3-B3232125EB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8673630F-4D2A-4E24-A2E3-B3232125EB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8673630F-4D2A-4E24-A2E3-B3232125EB22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

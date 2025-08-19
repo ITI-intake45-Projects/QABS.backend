@@ -15,10 +15,10 @@ namespace QABS.Models
         public int Age { get; set; }
 
         public string? ProfileImg { get; set; }
-        public bool? IsDeleted { get; set; }
-        public bool? IsActive { get; set; } 
+        //public bool? IsDeleted { get; set; }
+        //public bool? IsActive { get; set; } 
 
-        public DateTime? DateCreated { get; set; } = DateTime.Now;
+        public DateTime? DateCreated { get; set; } 
         public DateTime? LastLoginDate { get; set; }
 
         public virtual Teacher? Teacher { get; set; }
