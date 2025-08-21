@@ -24,8 +24,18 @@ namespace QABS.Repository
 
         public async Task UpdateAsync(T entity)
         {
-            Table.Update(entity);
-            await SaveAsync();
+            try
+            {
+                Table.Update(entity);
+                await SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency exception if needed
+                throw;
+            }
+          
+
         }
 
         public async Task Delete(T entity)
