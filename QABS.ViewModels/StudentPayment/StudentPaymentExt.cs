@@ -19,7 +19,7 @@ namespace QABS.ViewModels
         }
 
 
-        public static StudentPaymentDetailsVM ToDetailsVM(this StudentPayment studentPayment)
+        public static StudentPaymentDetailsVM ToDetails(this StudentPayment studentPayment)
         {
            
             return new StudentPaymentDetailsVM

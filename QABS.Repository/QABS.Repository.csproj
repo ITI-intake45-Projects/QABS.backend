@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LinqKit" Version="1.3.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\QABS.Infrastructure\QABS.Infrastructure.csproj" />
+    <ProjectReference Include="..\QABS.ViewModels\QABS.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

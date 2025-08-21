@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QABS.Repository", "QABS.Repository\QABS.Repository.csproj", "{B75C0BC6-4384-4822-A443-A07F59C551F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QABS.Service", "QABS.Service\QABS.Service.csproj", "{00CB968F-2584-44E1-AF66-694AD70C916C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B75C0BC6-4384-4822-A443-A07F59C551F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00CB968F-2584-44E1-AF66-694AD70C916C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00CB968F-2584-44E1-AF66-694AD70C916C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00CB968F-2584-44E1-AF66-694AD70C916C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00CB968F-2584-44E1-AF66-694AD70C916C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
