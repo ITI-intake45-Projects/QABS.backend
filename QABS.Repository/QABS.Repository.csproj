@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QABS.Infrastructure\QABS.Infrastructure.csproj" />
+    <ProjectReference Include="..\QABS.ViewModels\QABS.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
