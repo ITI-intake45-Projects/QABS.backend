@@ -22,5 +22,10 @@ namespace QABS.ViewModels
         public string Password { get; set; }
 
 
+        public decimal? HourlyRate { get; set; }
+
+        public List<SpecializationType>? Specializations { get; set; }
+
+
     }
 }
