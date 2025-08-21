@@ -11,10 +11,11 @@ namespace QABS.ViewModels
             {
                 FirstName = viewmodel.FirstName,
                 LastName = viewmodel.LastName,
+                Email = viewmodel.Email,
                 Gender = viewmodel.Gender,
                 Age = viewmodel.Age,
                 ProfileImg = viewmodel.ProfileImg,
-
+                DateCreated = DateTime.UtcNow,
 
             };
         }
