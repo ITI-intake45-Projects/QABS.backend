@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QABS.Infrastructure\QABS.Infrastructure.csproj" />
+    <ProjectReference Include="..\QABS.Repository\QABS.Repository.csproj" />
   </ItemGroup>
 
 </Project>
