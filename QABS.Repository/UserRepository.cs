@@ -8,11 +8,11 @@ using QABS.ViewModels.User;
 
 namespace QABS.Repository
 {
-    public class UserRepositor : BaseRepository<AppUser>
+    public class UserRepository : BaseRepository<AppUser>
     {
         private UserManager<AppUser> userManager;
         private SignInManager<AppUser> signInManager;
-        public UserRepositor(QABSDbContext dbcontext, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : base(dbcontext)
+        public UserRepository(QABSDbContext dbcontext, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : base(dbcontext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -56,17 +56,38 @@ namespace QABS.Repository
 
         public async Task<AppUser> FindByEmail(string email)
         {
-            return await userManager.FindByEmailAsync(email);
+            try
+            {
+                return await userManager.FindByEmailAsync(email);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task<AppUser> FindById(string Id)
         {
-            return await userManager.FindByIdAsync(Id);
+            try
+            {
+                return await userManager.FindByIdAsync(Id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public async Task Signout()
         {
-            await signInManager.SignOutAsync();
+            try
+            {
+                await signInManager.SignOutAsync();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
 

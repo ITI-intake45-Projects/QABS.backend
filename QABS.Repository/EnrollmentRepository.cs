@@ -1,11 +1,7 @@
 ﻿
-
-using Microsoft.EntityFrameworkCore;
 using QABS.Infrastructure;
 using QABS.Models;
 using QABS.ViewModels;
-using System.Globalization;
-using System.Linq.Expressions;
 
 namespace QABS.Repository
 {
