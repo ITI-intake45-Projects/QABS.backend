@@ -13,6 +13,7 @@ namespace QABS.Repository
     {
         protected readonly QABSDbContext _dbContext;
         protected readonly DbSet<T> Table;
+        
 
         public BaseRepository(QABSDbContext context)
         {
@@ -25,7 +26,8 @@ namespace QABS.Repository
             try
             {
                 await Table.AddAsync(entity);
-                await SaveAsync();
+                
+                
             }
             catch
             {
@@ -38,7 +40,7 @@ namespace QABS.Repository
             try
             {
                 Table.Update(entity);
-                await SaveAsync();
+                
             }
             catch
             {
@@ -51,7 +53,7 @@ namespace QABS.Repository
             try
             {
                 Table.Remove(entity);
-                await SaveAsync();
+               
             }
             catch
             {
@@ -107,17 +109,7 @@ namespace QABS.Repository
             }
         }
 
-        public async Task SaveAsync()
-        {
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch
-            {
-                throw;
-            }
-        }
+ 
 
         public async Task<PaginationVM<TViewModel>> SearchAsync<TViewModel, TKey>(
             Expression<Func<T, bool>>? filterPredicate,

@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using QABS.Infrastructure;
+using QABS.Models;
 using QABS.Repository;
+using QABS.Service;
+using Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +21,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddScoped<Service>();
+builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<EnrollmentRepository>();
 builder.Services.AddScoped<StudentRepository>();
 builder.Services.AddScoped<SessionRepository>();
@@ -27,6 +32,16 @@ builder.Services.AddScoped<TeacherRepository>();
 builder.Services.AddScoped<TeacherPayoutRepositroy>();
 builder.Services.AddScoped<TeacherAvailabilityRepository>();
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UploadMedia>();
+builder.Services.AddScoped<UnitOfWork>();
+
+
+builder.Services.AddDbContext<QABSDbContext>
+    (i => i.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("QABScontext")));
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<QABSDbContext>();
+
+
 
 var app = builder.Build();
 
