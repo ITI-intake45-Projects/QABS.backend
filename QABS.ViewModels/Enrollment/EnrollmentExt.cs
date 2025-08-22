@@ -15,7 +15,7 @@ namespace QABS.ViewModels
                 Specialization = enrollment.Specialization,
                 StartDate = enrollment.StartDate,
                 EndDate = enrollment.EndDate,
-                //StudentPayment = enrollment.studentPayment.Select(c => c.ToCreate()).ToList(),
+                //StudentPayment = enrollment.studentPayment.ToCreate()
             };
         }
 

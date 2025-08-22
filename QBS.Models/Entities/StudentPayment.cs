@@ -18,8 +18,8 @@ namespace QABS.Models
         public string StudentId { get; set; }
         public virtual Student Student { get; set; }
 
-        public int EnrollmentId { get; set; }
-        public Enrollment Enrollment { get; set; }
+        public int? EnrollmentId { get; set; }
+        public virtual Enrollment Enrollment { get; set; }
 
     }
 }

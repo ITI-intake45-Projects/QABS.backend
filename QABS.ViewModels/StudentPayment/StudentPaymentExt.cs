@@ -6,7 +6,7 @@ namespace QABS.ViewModels
 {
     public static class StudentPaymentExt
     {
-        public static StudentPayment ToCreateVM(this StudentPaymentCreateVM create)
+        public static StudentPayment ToCreate(this StudentPaymentCreateVM create)
         {
 
             return new StudentPayment
@@ -14,6 +14,8 @@ namespace QABS.ViewModels
                 Amount = create.Amount,
                 PaymentDate = create.PaymentDate,
                 ImageUrl = create.ImageUrl,
+                StudentId = create.StudentId,
+                EnrollmentId = create.EnrollmentId,
 
             };
         }

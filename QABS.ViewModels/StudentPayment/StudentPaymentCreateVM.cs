@@ -16,10 +16,10 @@ namespace QABS.ViewModels
         [Url(ErrorMessage = "Invalid image URL format")]
         public string? ImageUrl { get; set; } // صورة من ايصال الدفع
 
-        //[Required(ErrorMessage = "StudentId is required")]
-        //public string StudentId { get; set; } // معرف الطالب
+        [Required(ErrorMessage = "StudentId is required")]
+        public string StudentId { get; set; } // معرف الطالب
 
-        //[Required(ErrorMessage = "EnrollmentId is required")]
-        //public int EnrollmentId { get; set; } // معرف التسجيل
+
+        public int? EnrollmentId { get; set; } // معرف التسجيل
     }
 }

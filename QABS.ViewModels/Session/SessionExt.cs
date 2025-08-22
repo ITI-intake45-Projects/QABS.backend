@@ -34,7 +34,7 @@ namespace QABS.ViewModels
         {
 
             OldSession.StartTime = newsession.StartTime == default ? OldSession.StartTime : newsession.StartTime;
-
+            OldSession.Status = newsession.SessionStatus == OldSession.Status ? OldSession.Status : newsession.SessionStatus;
             return OldSession;
         }
     }

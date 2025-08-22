@@ -92,5 +92,28 @@ namespace QABS.Repository
             }
         }
 
+
+        public async Task<PaginationVM<StudentDetailsVM>> GetEnrolledStudentsByTeacherIdAsync(
+            string teacherId,
+            int pageSize = 10,
+            int pageIndex = 1)
+        {
+            try
+            {
+                return await SearchAsync(
+                    m => m.TeacherId == teacherId && m.Status == EnrollmentStatus.Active,
+                    m => m.Student.User.FirstName, // Order by Student's First Name
+                    m => m.Student.ToDetails(),   // Project to Student Details VM
+                    false,
+                    pageSize,
+                    pageIndex
+                );
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }
