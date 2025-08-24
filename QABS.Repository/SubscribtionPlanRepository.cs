@@ -2,6 +2,8 @@
 
 using QABS.Infrastructure;
 using QABS.Models;
+using QABS.ViewModels;
+using System.Data.Entity;
 
 namespace QABS.Repository
 {
@@ -12,6 +14,29 @@ namespace QABS.Repository
 
         }
 
+        public async Task<List<SubscribtionPlanDetailsVM>> GetSubscribtionPlans()
+        {
+            try
+            {
+                return await GetList().Select(t => t.ToDetails()).AsNoTracking().ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DoesNameExist(string name)
+        {
+            try
+            {
+                return await GetList().AnyAsync(t => t.Name == name);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
     }
 }

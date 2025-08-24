@@ -14,7 +14,7 @@ namespace QABS.ViewModels
         public string? ProfileImg { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        public decimal HourlyRate { get; set; }
+        public decimal? HourlyRate { get; set; }
         public List<SpecializationType> Specializations { get; set; }
         public List<TeacherAvailabilityDetailsVM>? Avaliability { get; set; }
 

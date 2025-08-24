@@ -32,25 +32,39 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> CreateSession([FromForm] SessionCreateVM vm)
+        public async Task<ServiceResult> CreateSessions(List<SessionCreateVM> sessionsVm)
         {
             try
             {
-                if (vm == null)
+                if (sessionsVm == null || !sessionsVm.Any())
                 {
                     return ServiceResult.FailureResult("Invalid session data.");
                 }
-                var session = _unitOfWork._sessionRepository.AddAsync(vm.ToCreate());
-                await _unitOfWork.SaveChangesAsync();
-                if (session == null)
+
+                // Assuming all sessions belong to the same enrollment
+                var enrollmentId = sessionsVm.First().EnrollmentId;
+                var enrollment = await _unitOfWork._enrollmentRepository.GetByIdAsync(enrollmentId);
+
+                if (enrollment == null)
                 {
-                    return ServiceResult.FailureResult("Failed to create session.");
+                    return ServiceResult.FailureResult("Enrollment not found.");
                 }
-                return ServiceResult.SuccessResult("Session created successfully.", HttpStatusCode.Created);
+
+                // Calculate amount for each session and map to entity
+                var sessions = sessionsVm.Select(vm =>
+                {
+                    vm.Amount = enrollment.Teacher.HourlyRate *
+                                (decimal)((int)enrollment.SubscriptionPlan.Duration / 60.00);
+                    return vm.ToCreate();
+                }).ToList();
+
+                await _unitOfWork._sessionRepository.AddRangeAsync(sessions);
+                await _unitOfWork.SaveChangesAsync();
+
+                return ServiceResult.SuccessResult($"{sessions.Count} sessions created successfully.", HttpStatusCode.Created);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as needed
                 return ServiceResult.FailureResult(ex.Message);
             }
         }

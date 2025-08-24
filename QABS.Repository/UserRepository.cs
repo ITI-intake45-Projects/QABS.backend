@@ -40,6 +40,8 @@ namespace QABS.Repository
 
         }
 
+      
+
         public async Task<SignInResult> Login(UserLoginVM accountLogin)
         {
             var User = await userManager.FindByEmailAsync(accountLogin.UserNameOrEmail);
@@ -54,7 +56,7 @@ namespace QABS.Repository
             }
         }
 
-        public async Task<AppUser> FindByEmail(string email)
+        public async Task<AppUser> FindByEmailAsync(string email)
         {
             try
             {
@@ -64,6 +66,11 @@ namespace QABS.Repository
             {
                 throw;
             }
+        }
+
+         public async Task<IList<string>> GetUserRoles(AppUser user)
+        {
+            return await userManager.GetRolesAsync(user);
         }
 
         public async Task<AppUser> FindById(string Id)

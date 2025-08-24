@@ -14,7 +14,6 @@ namespace QABS.ViewModels
                 MonthlyFee = subscribtionPlanCreateVM.MonthlyFee,
                 Name = subscribtionPlanCreateVM.Name,
                 Type = subscribtionPlanCreateVM.Type,
-               
 
             };
         }

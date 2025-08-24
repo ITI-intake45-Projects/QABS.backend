@@ -35,12 +35,37 @@ namespace QABS.Repository
             }
         }
 
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            try
+            {
+                await Table.AddRangeAsync(entities);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task UpdateAsync(T entity)
         {
             try
             {
                 Table.Update(entity);
-                
+                await Task.CompletedTask; // Simulate async operation
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task UpdateRangeAsync(IEnumerable<T> entities)
+        {
+            try
+            {
+                Table.UpdateRange(entities);
+                await Task.CompletedTask;
             }
             catch
             {

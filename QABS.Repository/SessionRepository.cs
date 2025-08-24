@@ -38,6 +38,18 @@ namespace QABS.Repository
             }
         }
 
+        public async Task<List<Session>> GetCompletedSessionsByTeacherId(string teacherId)
+        {
+            try
+            {
+                return await GetList(s => s.Enrollment.TeacherId == teacherId && s.Status == SessionStatus.Completed).ToListAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
 
 

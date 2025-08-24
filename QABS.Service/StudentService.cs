@@ -77,5 +77,28 @@ namespace QABS.Service
                 return ServiceResult<StudentPaymentDetailsVM>.FailureResult(ex.Message);
             }
         }
+
+
+        public async Task<ServiceResult> EditStudentPaymentStatus(StudentPaymentEditVM vm)
+        {
+            try
+            {
+                var studentPayment = await _unitOfWork._studentPaymentRepository.GetByIdAsync(vm.Id);
+
+                if (studentPayment == null)
+                {
+                    return ServiceResult.FailureResult("Student payment not found.");
+                }
+
+                await _unitOfWork._studentPaymentRepository.UpdateAsync(vm.ToEdit(studentPayment));
+                await _unitOfWork.SaveChangesAsync();
+
+                return ServiceResult.SuccessResult("Student payment status updated successfully.");
+            }
+            catch
+            {
+                return ServiceResult.FailureResult("Failed to edit student payment status.");
+            }
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace QABS.ViewModels
                 TeacherId = vm.TeacherId,
                 PaidAt = vm.PaidAt,
                 ImageUrl = vm.ImageUrl,
+                TotalHours = vm.TotalHours ?? 0, // Default to 0 if not provided
+                TotalAmount = vm.TotalAmount ?? 0, // Default to 0 if not provided
             };
         }
 

@@ -35,7 +35,15 @@ namespace QABS.ViewModels
             };
         }
 
+        public static StudentPayment ToEdit(this StudentPaymentEditVM edit, StudentPayment old)
+        {
 
-     
+            old.Status = edit.StudentPaymentStatus == old.Status ? old.Status : edit.StudentPaymentStatus;
+
+            return old;
+        }
+
+
+
     }
 }

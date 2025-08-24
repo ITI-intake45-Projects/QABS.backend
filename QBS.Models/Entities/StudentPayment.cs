@@ -8,6 +8,7 @@ namespace QABS.Models
 
         public decimal Amount { get; set; }     // المبلغ المدفوع
 
+        public StudentPaymentStatus Status { get; set; } 
         public DateTime PaymentDate { get; set; } 
 
         //public string? PaymentMethod { get; set; }  // Cash, Card, etc.

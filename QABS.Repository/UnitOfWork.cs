@@ -8,6 +8,7 @@ namespace QABS.Repository
     {
         public QABSDbContext _context { get; private set; }
         public TeacherRepository _teacherRepository { get; private set; }
+        public AdminRepository _adminRepository { get; private set; }
         public TeacherPayoutRepositroy _teacherPayoutRepositroy { get; private set; }
         public StudentRepository _studentRepository { get; private set; }
         public StudentPaymentRepository _studentPaymentRepository { get; private set; }
@@ -26,6 +27,7 @@ namespace QABS.Repository
              TeacherAvailabilityRepository teacherAvailabilityRepository,
              StudentPaymentRepository studentPaymentRepository,
              SubscribtionPlanRepository subscribtionPlanRepository,
+             AdminRepository adminRepository,
              QABSDbContext context
              )
         {
@@ -38,6 +40,7 @@ namespace QABS.Repository
             _teacherAvailabilityRepository = teacherAvailabilityRepository;
             _studentPaymentRepository = studentPaymentRepository;
             _subscribtionPlanRepository = subscribtionPlanRepository;
+            _adminRepository = adminRepository;
             _context = context;
         }
 

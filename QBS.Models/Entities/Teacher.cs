@@ -9,7 +9,7 @@ namespace QABS.Models
         public virtual AppUser User { get; set; }
 
 
-        public decimal HourlyRate { get; set; }
+        public decimal? HourlyRate { get; set; }
 
         // تخصص المدرس
         public List<SpecializationType> Specializations { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QABS.Repository;
 using QABS.ViewModels;
+using System.Data.Entity;
 using System.Net;
 using Utilities;
 
@@ -26,16 +27,35 @@ namespace QABS.Service
                 {
                     return ServiceResult.FailureResult("Invalid enrollment data.");
                 }
-                var enrollment = _unitOfWork._enrollmentRepository.AddAsync(vm.ToCreate());
-                await _unitOfWork.SaveChangesAsync();
 
                 if (vm.studentPayment == null)
                 {
                     return ServiceResult.FailureResult("Failed to create enrollment.");
                 }
 
+                var subscriptionPlan = await _unitOfWork._subscribtionPlanRepository.GetByIdAsync(vm.SubscriptionPlanId);
+
+                if (subscriptionPlan == null)
+                {
+                    return ServiceResult.FailureResult("Subscription plan not found.");
+                }
+
+                if (subscriptionPlan.MonthlyFee != vm.studentPayment.Amount)
+                {
+                    return ServiceResult.FailureResult("The amount does not match the subscription plan fee.");
+                }
+
+                var enrollment = vm.ToCreate();
+                await _unitOfWork._enrollmentRepository.AddAsync(enrollment);
+                await _unitOfWork.SaveChangesAsync();
+
+
+                
+                vm.studentPayment.ImageUrl = UploadMedia.addimage(vm.studentPayment.ImageFile);
+
                 vm.studentPayment.EnrollmentId = enrollment.Id;
                 await _unitOfWork._studentPaymentRepository.UpdateAsync(vm.studentPayment.ToCreate());
+                await _unitOfWork.SaveChangesAsync();
 
 
 
@@ -66,7 +86,24 @@ namespace QABS.Service
             }
         }
 
+        public async Task<ServiceResult<EnrollmentDetailsVM>> GetEnrollmentById(int id)
+        {
+            try
+            {
+                var enrollment = await _unitOfWork._enrollmentRepository.GetList(e => e.Id == id).Select(e => e.ToDetails()).FirstOrDefaultAsync();
 
+                if (enrollment == null)
+                {
+                    return ServiceResult<EnrollmentDetailsVM>.FailureResult("Enrollment not found.");
+                }
+                return ServiceResult<EnrollmentDetailsVM>.SuccessResult(enrollment, "Enrollment retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<EnrollmentDetailsVM>.FailureResult(ex.Message);
+            }
+        }
         public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> GetEnrollmentsByStudentId(string studentId)
         {
             try
@@ -94,7 +131,7 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> GetAllEnrollments(DateTime date)
+        public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> SearchEnrollmentsByDate(DateTime date)
         {
             try
             {
