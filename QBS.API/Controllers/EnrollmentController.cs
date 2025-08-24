@@ -69,7 +69,7 @@ namespace QABS.API.Controllers
         }
 
         [HttpGet("SearchEnrollmentsByDate")]
-        public async Task<IActionResult> SearchEnrollmentsByDate([FromBody]DateTime date)
+        public async Task<IActionResult> SearchEnrollmentsByDate([FromQuery]DateTime date)
         {
             var result = await enrollmentService.SearchEnrollmentsByDate(date);
             if (result.IsSuccess)

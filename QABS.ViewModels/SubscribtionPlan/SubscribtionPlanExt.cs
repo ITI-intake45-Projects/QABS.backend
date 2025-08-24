@@ -11,9 +11,9 @@ namespace QABS.ViewModels
             return new SubscribtionPlan
             {
                 Duration = subscribtionPlanCreateVM.Duration,
-                MonthlyFee = subscribtionPlanCreateVM.MonthlyFee,
                 Name = subscribtionPlanCreateVM.Name,
                 Type = subscribtionPlanCreateVM.Type,
+                //MonthlyFee = subscribtionPlanCreateVM.MonthlyFee,
 
             };
         }
@@ -27,8 +27,8 @@ namespace QABS.ViewModels
                 Id = model.Id,
                 Name = model.Name,
                 Duration = model.Duration,
-                MonthlyFee = model.MonthlyFee,
                 Type = model.Type,
+                //MonthlyFee = model.MonthlyFee,
             };
         }
     }

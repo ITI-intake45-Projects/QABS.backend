@@ -1,8 +1,10 @@
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using QABS.Infrastructure;
 using QABS.Models;
 using QABS.Repository;
@@ -22,7 +24,34 @@ builder.Services.AddDbContext<QABSDbContext>(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//To Enable Swagger to test authentication token >>(Bearer space token)
+builder.Services.AddSwaggerGen(c => {
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "JWTToken_Auth_API",
+        Version = "v1"
+    });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+            new OpenApiSecurityScheme {
+                Reference = new OpenApiReference {
+                    Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 
 builder.Services.AddScoped<UserRepository>();
@@ -51,6 +80,7 @@ builder.Services.AddDbContext<QABSDbContext>
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<QABSDbContext>();
 
+builder.Services.AddHttpClient();
 
 builder.Services.AddAuthentication(option =>
 {
@@ -85,9 +115,26 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
+builder.Services.AddHangfire(config =>
+{
+    config.UseSimpleAssemblyNameTypeSerializer()
+          .UseRecommendedSerializerSettings()
+          .UseSqlServerStorage(builder.Configuration.GetConnectionString("QABScontext"));
+});
+builder.Services.AddHangfireServer();
 
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("AllowAngular", policy => {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 var app = builder.Build();
+app.UseCors("AllowAngular");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -95,6 +142,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHangfireDashboard("/hangfire");
+RecurringJob.AddOrUpdate<SessionService>(
+    "HangFireUpdateSessions",
+    s => s.HangFireUpdateSessions(),
+    Cron.Daily);
 
 app.UseHttpsRedirection();
 

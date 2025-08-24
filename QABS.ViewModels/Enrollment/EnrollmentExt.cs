@@ -15,6 +15,9 @@ namespace QABS.ViewModels
                 Specialization = enrollment.Specialization,
                 StartDate = enrollment.StartDate,
                 EndDate = enrollment.EndDate,
+                EnrollmentFee = enrollment.EnrollmentFee,
+                Discount = enrollment.Discount ?? 0,
+
                 //StudentPayment = enrollment.studentPayment.ToCreate()
             };
         }
@@ -34,6 +37,9 @@ namespace QABS.ViewModels
                 Status = enrollmentDetails.Status,
                 StartDate = enrollmentDetails.StartDate,
                 EndDate = enrollmentDetails.EndDate,
+                EnrollmentFee = enrollmentDetails.EnrollmentFee,
+                Discount = enrollmentDetails.Discount ?? 0,
+                ActualFee = enrollmentDetails.Discount > 0  ? (100 * enrollmentDetails.EnrollmentFee) / enrollmentDetails.Discount : enrollmentDetails.EnrollmentFee,
                 RemainingSessions = enrollmentDetails.Sessions.Count(s => s.Status == SessionStatus.Scheduled),
                 StudentPaymentAmount = enrollmentDetails.StudentPayment?.Amount ?? 0,
                 SubscriptionPlanDetails = enrollmentDetails.SubscriptionPlan.ToDetails(),

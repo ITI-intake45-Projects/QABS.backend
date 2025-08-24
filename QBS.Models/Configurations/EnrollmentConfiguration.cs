@@ -11,7 +11,6 @@ namespace QABS.Models
         {
             builder.HasKey(en => en.Id);
            
-            builder.Property(en => en.Status).HasDefaultValue(1);
             builder.Property(en => en.StartDate).IsRequired();
             builder.Property(en => en.EndDate).IsRequired();
 
@@ -20,12 +19,12 @@ namespace QABS.Models
 
             builder.HasMany(en => en.Sessions)
                .WithOne(en => en.Enrollment)
-               .HasForeignKey(en => en.Enrollment.Id)
+               .HasForeignKey(en => en.EnrollmentId)
                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(en => en.StudentPayment)
                 .WithOne(stpay => stpay.Enrollment)
-                .HasForeignKey<StudentPayment>(stpay  => stpay.Enrollment.Id)
+                .HasForeignKey<StudentPayment>(stpay  => stpay.EnrollmentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
 

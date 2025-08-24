@@ -14,7 +14,6 @@ namespace QABS.Models.Configurations
         {
             builder.HasKey(s => s.Id);
             builder.Property(s => s.StartTime).IsRequired();
-            builder.Property(s => s.Status).HasDefaultValue(1);
 
 
             //builder.HasMany(s=> s.PayoutItems)

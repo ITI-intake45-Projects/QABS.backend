@@ -14,7 +14,7 @@ namespace QABS.Models
         public SessionDurationType Duration { get; set; }
 
         /// <summary>السعر الشهري</summary>
-        public decimal MonthlyFee { get; set; } 
+        //public decimal MonthlyFee { get; set; }
 
             // علاقة مع Enrollment
         public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>(); 

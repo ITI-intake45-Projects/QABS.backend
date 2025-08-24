@@ -9,6 +9,8 @@ namespace QABS.Models
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
+            builder.HasKey(s => s.UserId);
+
 
             builder.HasMany(st => st.Enrollments)
                 .WithOne(en => en.Student)
@@ -18,14 +20,14 @@ namespace QABS.Models
 
             builder.HasOne(t => t.User)
               .WithOne(u => u.Student)
-              .HasForeignKey<Teacher>(t => t.UserId)
+              .HasForeignKey<Student>(t => t.UserId)
               .OnDelete(DeleteBehavior.NoAction);
 
 
             builder.HasMany(st => st.StudentPayments)
                 .WithOne(p => p.Student)
                 .HasForeignKey(p => p.StudentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

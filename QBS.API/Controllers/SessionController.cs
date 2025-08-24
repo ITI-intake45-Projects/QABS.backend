@@ -38,7 +38,7 @@ namespace QABS.API.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("UpdateSession")]
+        [HttpPut("UpdateSession")]
         public async Task<IActionResult> UpdateSession([FromBody] SessionEditVM sessionsVm)
         {
             var result = await _sessionService.UpdateSession(sessionsVm);

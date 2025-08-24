@@ -1,7 +1,9 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using QABS.Models;
 using QABS.Repository;
 using QABS.ViewModels;
+using System.Data.Entity;
 using System.Net;
 using Utilities;
 
@@ -89,7 +91,33 @@ namespace QABS.Service
             }
         }
 
+        public async Task HangFireUpdateSessions()
+        {
+            try
+            {
+                var nowUtc = DateTime.UtcNow;
+                var sessions = await _unitOfWork._sessionRepository.GetList(s => s.Status == SessionStatus.Scheduled && s.StartTime < nowUtc).ToListAsync();
 
+                if (sessions == null || !sessions.Any())
+                {
+                    return; // No sessions to update
+                }
+
+                foreach(var session in sessions)
+                {
+                    session.Status = SessionStatus.Completed; // Update status to Completed
+                }
+
+                await _unitOfWork._sessionRepository.UpdateRangeAsync(sessions);
+                await _unitOfWork.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                throw new Exception("Error updating sessions: " + ex.Message);
+            }
+        }
 
     }
 }

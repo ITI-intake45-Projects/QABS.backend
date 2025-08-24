@@ -19,6 +19,8 @@ namespace QABS.Models
         public virtual SubscribtionPlan SubscriptionPlan { get; set; }
 
         //public SessionDurationType Duration { get; set; }
+        public decimal EnrollmentFee { get; set; } // السعر الشهري
+        public decimal? Discount { get; set; } // الخصم على الاشتراك
 
 
         public SpecializationType Specialization { get; set; } 

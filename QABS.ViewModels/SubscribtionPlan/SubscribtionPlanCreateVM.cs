@@ -13,7 +13,7 @@ namespace QABS.ViewModels
         public SubscriptionType Type { get; set; }
         [Required]
         public SessionDurationType Duration { get; set; }
-        [Required]
-        public decimal MonthlyFee { get; set; }
+        //[Required]
+        //public decimal MonthlyFee { get; set; }
     }
 }

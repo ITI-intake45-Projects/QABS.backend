@@ -27,6 +27,7 @@ namespace QABS.Service
                 return ServiceResult<PaginationVM<StudentDetailsVM>>.FailureResult(ex.Message);
             }
         }
+
         public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> GetStudentsByName(string name)
         {
             try
@@ -41,7 +42,6 @@ namespace QABS.Service
             }
         }
 
-
         public async Task<ServiceResult<PaginationVM<StudentPaymentDetailsVM>>> GetAllStudentPaymentsByStudentId(string id)
         {
             try
@@ -55,7 +55,6 @@ namespace QABS.Service
                 return ServiceResult<PaginationVM<StudentPaymentDetailsVM>>.FailureResult(ex.Message);
             }
         }
-
 
         public async Task<ServiceResult<StudentPaymentDetailsVM>> GetStudentPaymentByEnrollmentId(int id)
         {
@@ -77,7 +76,6 @@ namespace QABS.Service
                 return ServiceResult<StudentPaymentDetailsVM>.FailureResult(ex.Message);
             }
         }
-
 
         public async Task<ServiceResult> EditStudentPaymentStatus(StudentPaymentEditVM vm)
         {

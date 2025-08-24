@@ -33,17 +33,17 @@ namespace QABS.Service
                     return ServiceResult.FailureResult("Failed to create enrollment.");
                 }
 
-                var subscriptionPlan = await _unitOfWork._subscribtionPlanRepository.GetByIdAsync(vm.SubscriptionPlanId);
+                //var subscriptionPlan = await _unitOfWork._subscribtionPlanRepository.GetByIdAsync(vm.SubscriptionPlanId);
 
-                if (subscriptionPlan == null)
-                {
-                    return ServiceResult.FailureResult("Subscription plan not found.");
-                }
+                //if (subscriptionPlan == null)
+                //{
+                //    return ServiceResult.FailureResult("Subscription plan not found.");
+                //}
 
-                if (subscriptionPlan.MonthlyFee != vm.studentPayment.Amount)
-                {
-                    return ServiceResult.FailureResult("The amount does not match the subscription plan fee.");
-                }
+                //if (subscriptionPlan.MonthlyFee != vm.studentPayment.Amount)
+                //{
+                //    return ServiceResult.FailureResult("The amount does not match the subscription plan fee.");
+                //}
 
                 var enrollment = vm.ToCreate();
                 await _unitOfWork._enrollmentRepository.AddAsync(enrollment);
@@ -69,7 +69,6 @@ namespace QABS.Service
 
 
         }
-
 
         public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> GetAllEnrollments()
         {
@@ -104,6 +103,7 @@ namespace QABS.Service
                 return ServiceResult<EnrollmentDetailsVM>.FailureResult(ex.Message);
             }
         }
+
         public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> GetEnrollmentsByStudentId(string studentId)
         {
             try
@@ -117,6 +117,7 @@ namespace QABS.Service
                 return ServiceResult<PaginationVM<EnrollmentDetailsVM>>.FailureResult(ex.Message);
             }
         }
+       
         public async Task<ServiceResult<PaginationVM<EnrollmentDetailsVM>>> GetEnrollmentsByTeacherId(string teacherId)
         {
             try

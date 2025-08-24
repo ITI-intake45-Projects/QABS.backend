@@ -17,7 +17,10 @@ namespace QABS.ViewModels
         [Required]
         public SpecializationType Specialization { get; set; }
 
-       
+        [Required]
+        public decimal EnrollmentFee { get; set; } // السعر الشهري
+        public decimal? Discount { get; set; } // الخصم على الاشتراك
+
         [Required]
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }

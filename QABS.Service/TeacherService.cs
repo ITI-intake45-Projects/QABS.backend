@@ -129,7 +129,7 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> CreateTeacherAvaliability([FromBody] List<TeacherAvailabilityCreateVM> vm)
+        public async Task<ServiceResult> CreateTeacherAvaliability( List<TeacherAvailabilityCreateVM> vm)
         {
             try
             {
@@ -155,7 +155,7 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> UpdateTeacherAvaliability([FromBody] TeacherAvailabilityEditVM vm)
+        public async Task<ServiceResult> UpdateTeacherAvaliability(TeacherAvailabilityEditVM vm)
         {
             try
             {

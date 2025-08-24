@@ -14,6 +14,6 @@ namespace QABS.ViewModels
 
         public SessionDurationType Duration { get; set; }
 
-        public decimal MonthlyFee { get; set; }
+        //public decimal MonthlyFee { get; set; }
     }
 }

@@ -13,6 +13,10 @@ namespace QABS.ViewModels
         public string? TeacherName { get; set; }
         public string? StudentImg { get; set; }
         public string? TeacherImg { get; set; }
+        public decimal EnrollmentFee { get; set; } // السعر الشهري
+        public decimal? Discount { get; set; } // الخصم على الاشتراك
+        public decimal? ActualFee { get; set; } // السعر الفعلي بعد الخصم
+
         public SpecializationType SpecializationType { get; set; }
         public EnrollmentStatus Status { get; set; }
         public DateTime? StartDate { get; set; }

@@ -10,6 +10,7 @@ namespace QABS.Models
         public void Configure(EntityTypeBuilder<Teacher> builder)
         {
 
+            builder.HasKey(s => s.UserId);
             builder.Property(t => t.HourlyRate).IsRequired();
 
 
