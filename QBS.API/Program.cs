@@ -17,8 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Add DbContext
-builder.Services.AddDbContext<QABSDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("QABScontext")));
+//builder.Services.AddDbContext<QABSDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("QABScontext")));
 
 
 builder.Services.AddControllers();

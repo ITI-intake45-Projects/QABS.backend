@@ -22,8 +22,12 @@ namespace QABS.Repository
         {
             try
             {
-                var res = await userManager.CreateAsync(accountRegister.ToCreate(),
-               accountRegister.Password);
+                var user = accountRegister.ToCreate();
+                user.UserName = accountRegister.Email;
+
+                //Must Send UserName, Identity Requires Username even if not used
+                var res = await userManager.CreateAsync(user,accountRegister.Password);
+
                 if (res.Succeeded)
                 {
                     AppUser account = await userManager.FindByEmailAsync(accountRegister.Email);

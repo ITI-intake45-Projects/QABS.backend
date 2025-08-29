@@ -36,7 +36,10 @@ namespace QABS.Service
                 return IdentityResult.Failed(new IdentityError { Description = "Email is already taken." });
             }
 
-            user.ProfileImg = UploadMedia.addimage(user.ImageFile);
+            if(user.ImageFile != null)
+            {
+                user.ProfileImg = UploadMedia.addimage(user.ImageFile);
+            }
 
             var userRes = await _unitOfWork._userRepository.Register(user);
 
