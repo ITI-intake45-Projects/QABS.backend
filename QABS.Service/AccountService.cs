@@ -50,7 +50,7 @@ namespace QABS.Service
                 {
                     //Add Record In Admin table
                     await _unitOfWork._adminRepository.AddAsync(new Admin() { UserId = currentUser.Id });
-                    return IdentityResult.Success;
+                    //return IdentityResult.Success;
                 }
 
                 else if (user.Role == "Teacher")
@@ -58,15 +58,18 @@ namespace QABS.Service
                     //Add Record In Teacher table
                     await _unitOfWork._teacherRepository.AddAsync(new Teacher() 
                     { UserId = currentUser.Id, HourlyRate = user.HourlyRate , Specializations = user.Specializations });
-                    return IdentityResult.Success;
+                    //return IdentityResult.Success;
                 }
 
                 else if (user.Role == "Student")
                 {
                     //Add Record In Student table
                     await _unitOfWork._studentRepository.AddAsync(new Student() { UserId = currentUser.Id });
-                    return IdentityResult.Success;
+                    
                 }
+                await _unitOfWork.SaveChangesAsync();
+
+                return IdentityResult.Success;
 
             }
 
