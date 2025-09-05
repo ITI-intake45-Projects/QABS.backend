@@ -16,19 +16,6 @@ namespace QABS.Models
         //public string? Bio { get; set; } // نبذة 
 
 
-       
-
-        //[NotMapped] public int StudentsCount { get; set; } // يُحسب Query
-        //[NotMapped] public double TotalHoursTaught { get; set; } // يُحسب Query
-        //[NotMapped] public double PaidHours { get; set; } // يُحسب Query
-        //[NotMapped] public double PaidAmount {  get; set; }
-
-        //[NotMapped] public double UnpaidHours { get; set; } // يُحسب Query
-        //[NotMapped] public double UnpaidAmount { get; set; }
-
-        //Relations : 
-        //public virtual ICollection<Session> Sessions { get; set; }
-
         // اشتراكات الطلاب مع المدرس
         public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
         public virtual ICollection<TeacherPayout> TeachersPayouts { get; set; } = new List<TeacherPayout>();

@@ -23,7 +23,7 @@ namespace QABS.ViewModels
             
             return new TeacherAvailabilityDetailsVM
             {
-                Id = availability.Id,
+                TeacherAvailabilityId = availability.Id,
                 DayOfWeek = availability.DayOfWeek,
                 StartTime = availability.StartTime,
                 EndTime = availability.EndTime,

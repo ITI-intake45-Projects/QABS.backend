@@ -4,7 +4,7 @@ namespace QABS.ViewModels
 {
     public class TeacherAvailabilityDetailsVM
     {
-        public int Id { get; set; }
+        public int TeacherAvailabilityId { get; set; }
         
         // اليوم (ممكن Enum أو int يمثل يوم الأسبوع)
         public DayOfWeek DayOfWeek { get; set; }
