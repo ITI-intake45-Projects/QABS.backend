@@ -42,6 +42,28 @@ namespace QABS.Service
             }
         }
 
+
+        public async Task<ServiceResult<StudentDetailsVM>> GetStudentById(string id)
+        {
+            try
+            {
+                var student = await _unitOfWork._studentRepository.GetByIdAsync(id);
+                
+                if (student != null)
+                {
+                    
+                    return ServiceResult<StudentDetailsVM>.SuccessResult(student.ToDetails(), "Student retrieved successfully.");
+
+                }
+                return ServiceResult<StudentDetailsVM>.FailureResult("Student not found.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<StudentDetailsVM>.FailureResult(ex.Message);
+            }
+        }
+
         public async Task<ServiceResult<PaginationVM<StudentPaymentDetailsVM>>> GetAllStudentPaymentsByStudentId(string id)
         {
             try
