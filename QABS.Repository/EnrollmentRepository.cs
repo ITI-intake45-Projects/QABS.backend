@@ -120,8 +120,8 @@ namespace QABS.Repository
         {
             try
             {
-                return await GetList(e => e.TeacherId == teacherId && e.Status == EnrollmentStatus.Active)
-                    .Select(e => e.Student.ToList()).ToListAsync();
+                var list = GetList(e => e.TeacherId == teacherId && e.Status == EnrollmentStatus.Active);
+                return await list.Select(e => e.Student.ToList()).ToListAsync();
             }
             catch
             {
