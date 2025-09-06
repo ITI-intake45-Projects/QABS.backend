@@ -11,6 +11,27 @@ namespace QABS.Repository
         {
 
         }
+        public async Task<PaginationVM<EnrollmentDetailsVM>> GetAllEnrollmentsAsync(
+        int pageSize = 10,
+        int pageIndex = 1)
+        {
+            try
+            {
+                return await SearchAsync(
+                    null,                          // no filter (يعني هات الكل)
+                    m => m.StartDate,              // order by StartDate
+                    m => m.ToDetails(),            // projection
+                    false,                         // ascending
+                    pageSize,
+                    pageIndex
+                );
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
         public async Task<PaginationVM<EnrollmentDetailsVM>> SearchEnrollmentsByDate(
             DateTime? startdate = null,

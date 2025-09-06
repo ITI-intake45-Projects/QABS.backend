@@ -114,7 +114,9 @@ namespace QABS.Repository
         {
             try
             {
-                return filter != null ? Table.Where(filter) : Table;
+                
+
+                return  filter != null ? Table.Where(filter) : Table;
             }
             catch
             {
@@ -139,7 +141,7 @@ namespace QABS.Repository
         public async Task<PaginationVM<TViewModel>> SearchAsync<TViewModel, TKey>(
             Expression<Func<T, bool>>? filterPredicate,
             Expression<Func<T, TKey>>? orderBy,
-            Expression<Func<T, TViewModel>> selector,
+            Expression<Func<T, TViewModel>>? selector,
             bool descending = false,
             int pageSize = 10,
             int pageIndex = 1)

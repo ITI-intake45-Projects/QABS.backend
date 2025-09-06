@@ -15,6 +15,7 @@ namespace QABS.ViewModels
         public DateTime? DateCreated { get; set; }
         public DateTime? LastLoginDate { get; set; }
         public decimal? HourlyRate { get; set; }
+        public int? EnrollendStudents { get; set; }
         public List<SpecializationType> Specializations { get; set; }
         public List<TeacherAvailabilityDetailsVM>? Availability { get; set; }
 

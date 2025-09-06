@@ -74,7 +74,7 @@ namespace QABS.Service
         {
             try
             {
-                var enrollments = await _unitOfWork._enrollmentRepository.SearchEnrollmentsByDate();
+                var enrollments = await _unitOfWork._enrollmentRepository.GetAllEnrollmentsAsync();
 
                 return ServiceResult<PaginationVM<EnrollmentDetailsVM>>.SuccessResult(enrollments, "Enrollments retrieved successfully.");
             }

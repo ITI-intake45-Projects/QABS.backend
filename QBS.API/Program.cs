@@ -70,6 +70,7 @@ builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<EnrollmentService>();
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<TeacherService>();
+builder.Services.AddScoped<SubscribtionPlanService>();
 builder.Services.AddScoped<SessionService>();
 
 //builder.Services.AddScoped<UploadMedia>();
@@ -133,7 +134,11 @@ builder.Services.AddCors(options => {
     });
 });
 
+
+
 var app = builder.Build();
+
+
 app.UseCors("AllowAngular");
 
 // Configure the HTTP request pipeline.

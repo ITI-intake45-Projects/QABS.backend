@@ -18,7 +18,7 @@ namespace QABS.ViewModels
         public decimal? ActualFee { get; set; } // السعر الفعلي بعد الخصم
 
         public SpecializationType SpecializationType { get; set; }
-        public EnrollmentStatus Status { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public decimal StudentPaymentAmount { get; set; }

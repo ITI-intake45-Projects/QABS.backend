@@ -44,10 +44,10 @@ namespace QABS.API.Controllers
             }
             return new JsonResult(result);
         }
-        [HttpGet("GetEnrolledStudentsById/{studentId}")]
-        public async Task<IActionResult> GetEnrolledStudentsById(string studentId)
+        [HttpGet("GetEnrolledStudentsByTeacherId/{studentId}")]
+        public async Task<IActionResult> GetEnrolledStudentsByTeacherId(string teacherId)
         {
-            var result = await teacherService.GetEnrolledStudentsById(studentId);
+            var result = await teacherService.GetEnrolledStudentsById(teacherId);
             if (result.IsSuccess)
             {
                 return new JsonResult(result);

@@ -34,6 +34,7 @@ namespace QABS.ViewModels
                 LastLoginDate = teacher.User.LastLoginDate,
                 HourlyRate = teacher.HourlyRate,
                 Specializations = teacher.Specializations ?? new List<SpecializationType>(),
+                
                 Availability = teacher.TeacherAvailabilities?.Select(a => a.ToDetails()).ToList()
             };
         }

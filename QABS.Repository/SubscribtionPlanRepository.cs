@@ -18,11 +18,14 @@ namespace QABS.Repository
         {
             try
             {
-                return await GetList().Select(t => t.ToDetails()).AsNoTracking().ToListAsync();
+                //return await GetList().Select(s => s.ToDetails()).ToListAsync();
+                var list = GetList(); // هنا هيرجع List<SubscribtionPlan>
+
+                return list.Select(t => t.ToDetails()).ToList(); // تحويل لـ ViewModel
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception("Error in GetSubscribtionPlans", ex);
             }
         }
 
