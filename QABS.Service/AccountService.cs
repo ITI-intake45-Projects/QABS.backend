@@ -65,12 +65,10 @@ namespace QABS.Service
                 {
                     //Add Record In Student table
                     await _unitOfWork._studentRepository.AddAsync(new Student() { UserId = currentUser.Id });
-                    
+                    //return IdentityResult.Success;
                 }
                 await _unitOfWork.SaveChangesAsync();
-
                 return IdentityResult.Success;
-
             }
 
             return IdentityResult.Failed();
