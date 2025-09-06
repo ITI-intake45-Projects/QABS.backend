@@ -61,17 +61,17 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> GetEnrolledStudentsById(string id )
+        public async Task<ServiceResult<List<StudentListVM>>> GetEnrolledStudentsById(string id )
         {
             try
             {
                 var students = await _unitOfWork._enrollmentRepository.GetEnrolledStudentsByTeacherIdAsync(id);
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.SuccessResult(students, "Students retrieved successfully.");
+                return ServiceResult<List<StudentListVM>>.SuccessResult(students, "Students retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.FailureResult(ex.Message);
+                return ServiceResult<List<StudentListVM>>.FailureResult(ex.Message);
             }
         }
 

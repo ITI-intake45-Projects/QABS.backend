@@ -1,7 +1,9 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using QABS.Infrastructure;
 using QABS.Models;
 using QABS.ViewModels;
+using System.Data.Entity;
 
 namespace QABS.Repository
 {
@@ -114,21 +116,12 @@ namespace QABS.Repository
         }
 
 
-        public async Task<PaginationVM<StudentDetailsVM>> GetEnrolledStudentsByTeacherIdAsync(
-            string teacherId,
-            int pageSize = 10,
-            int pageIndex = 1)
+        public async Task<List<StudentListVM>> GetEnrolledStudentsByTeacherIdAsync(string teacherId)
         {
             try
             {
-                return await SearchAsync(
-                    m => m.TeacherId == teacherId && m.Status == EnrollmentStatus.Active,
-                    m => m.Student.User.FirstName, // Order by Student's First Name
-                    m => m.Student.ToDetails(),   // Project to Student Details VM
-                    false,
-                    pageSize,
-                    pageIndex
-                );
+                return await GetList(e => e.TeacherId == teacherId && e.Status == EnrollmentStatus.Active)
+                    .Select(e => e.Student.ToList()).ToListAsync();
             }
             catch
             {

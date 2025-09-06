@@ -54,5 +54,14 @@ namespace QABS.ViewModels
 
             };
         }
+        public static StudentListVM ToList(this Student student)
+        {
+            return new StudentListVM
+            {
+                StudentId = student.UserId,
+                FullName = $"{student.User.FirstName} {student.User.LastName}",
+                ProfileImg = student.User.ProfileImg
+            };
+        }
     }
 }
