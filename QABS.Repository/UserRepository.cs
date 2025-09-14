@@ -81,6 +81,7 @@ namespace QABS.Repository
         {
             try
             {
+
                 return await userManager.FindByIdAsync(Id);
             }
             catch

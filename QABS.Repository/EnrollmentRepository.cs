@@ -1,4 +1,5 @@
 ﻿
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using QABS.Infrastructure;
 using QABS.Models;
@@ -35,14 +36,29 @@ namespace QABS.Repository
         }
 
 
-        public async Task<PaginationVM<EnrollmentDetailsVM>> SearchEnrollmentsByDate(
+        public async Task<PaginationVM<EnrollmentListVM>> SearchEnrollmentList(
+            string? studentId = "" ,
+            string? teacherId = "",
             DateTime? startdate = null,
+            bool descending = false,
             int pageSize = 10,
             int pageIndex = 1)
         {
             try
             {
-                return await SearchAsync(m => m.StartDate == startdate, m => m.StartDate, m => m.ToDetails(), false, pageSize, pageIndex);
+
+                var predicate = PredicateBuilder.New<Enrollment>(true);
+
+                if (!string.IsNullOrEmpty(studentId))
+                    predicate = predicate.And(m => m.StudentId == studentId);
+
+                if (!string.IsNullOrEmpty(teacherId))
+                    predicate = predicate.And(m => m.TeacherId == teacherId);
+
+                if (startdate.HasValue)
+                    predicate = predicate.And(m => m.StartDate.Date == startdate.Value.Date);
+
+                return await SearchAsync(predicate, m => m.StartDate, m => m.ToList(), false, pageSize, pageIndex);
             }
             catch
             {
@@ -120,8 +136,16 @@ namespace QABS.Repository
         {
             try
             {
-                var list = GetList(e => e.TeacherId == teacherId && e.Status == EnrollmentStatus.Active);
-                return await list.Select(e => e.Student.ToList()).ToListAsync();
+                // Fetch data from DB (EF part)
+                //var enrollments =  GetList(e => e.TeacherId == teacherId && e.Status == EnrollmentStatus.Active)
+                var enrollments =  GetList(e => e.TeacherId == teacherId);
+
+                ;
+
+                // Map using your extension method (in-memory)
+                //return await GetList(e => e.TeacherId == teacherId).Select(e => e.Student.ToList()).ToListAsync();
+                //
+                return enrollments.Select(e => e.Student.ToList()).ToList();
             }
             catch
             {

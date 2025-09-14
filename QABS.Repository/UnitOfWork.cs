@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore.Storage;
 using QABS.Infrastructure;
 
 namespace QABS.Repository
@@ -44,7 +45,11 @@ namespace QABS.Repository
             _context = context;
         }
 
-
+        // ✅ Transaction method
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
 
         public void Dispose()
         {

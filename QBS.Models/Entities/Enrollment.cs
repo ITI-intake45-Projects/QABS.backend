@@ -31,6 +31,6 @@ namespace QABS.Models
         public virtual ICollection<Session> Sessions { get; set; }
 
         public virtual StudentPayment StudentPayment { get; set; }
-        
+
     }
 }

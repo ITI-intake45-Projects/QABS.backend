@@ -26,7 +26,7 @@ namespace QABS.API.Controllers
             if (ModelState.IsValid)
             {
                 var res = await accountService.CreateAccount(user);
-                if (res.Succeeded)
+                if (res.IsSuccess)
                 {
                     return new JsonResult(res);
                 }
@@ -49,6 +49,8 @@ namespace QABS.API.Controllers
                 Status = 400
             });
         }
+
+       
 
 
         [HttpPost("Login")]
@@ -116,6 +118,19 @@ namespace QABS.API.Controllers
             return new JsonResult(new
             {
                 Massage = "Sign out Successfully",
+                Status = 200
+            });
+        }
+
+
+
+        [HttpDelete("DeleteAccount/{accId}")]
+        public async Task<IActionResult> DeleteAccount(string accId)
+        {
+            await accountService.DeleteAccount(accId);
+            return new JsonResult(new
+            {
+                Massage = "Account Deleted Successfully.",
                 Status = 200
             });
         }

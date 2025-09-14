@@ -38,6 +38,16 @@ namespace QABS.ViewModels
                 Availability = teacher.TeacherAvailabilities?.Select(a => a.ToDetails()).ToList()
             };
         }
+
+        public static TeacherListVM ToList(this Teacher teacher)
+        {
+            return new TeacherListVM
+            {
+                TeacherId = teacher.UserId,
+                FullName = $"{teacher.User.FirstName} {teacher.User.LastName}",
+                ProfileImg = teacher.User.ProfileImg
+            };
+        }
         public static StudentDetailsVM ToDetails(this Student student)
         {
             return new StudentDetailsVM
@@ -50,9 +60,14 @@ namespace QABS.ViewModels
                 ProfileImg = student.User.ProfileImg,
                 DateCreated = student.User.DateCreated,
                 LastLoginDate = student.User.LastLoginDate,
-                studentpayments = student.StudentPayments?.Select(sp => sp.ToDetails()).ToList()
+                Studentpayments = student.StudentPayments?.Select(sp => sp.ToDetails()).ToList()
+                
 
             };
+        }
+        public static List<StudentDetailsVM> ToDetails(this List<Student> students)
+        {
+            return students.Select(s => s.ToDetails()).ToList();
         }
         public static StudentListVM ToList(this Student student)
         {

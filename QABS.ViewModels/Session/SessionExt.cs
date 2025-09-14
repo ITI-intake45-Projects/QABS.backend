@@ -12,6 +12,7 @@ namespace QABS.ViewModels
                 StartTime = vm.StartTime,
                 EnrollmentId = vm.EnrollmentId,
                 Amount = vm.Amount,
+                Status = vm.Status,
                 //Amount = session.Enrollment.Teacher.HourlyRate * (decimal)((int)session.Enrollment.SubscriptionPlan.Duration/60.00),
 
 
@@ -27,6 +28,25 @@ namespace QABS.ViewModels
                 EnrollmentId = session.EnrollmentId,
                 Amount = session.Amount,
                
+                //PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
+            };
+        }
+
+        public static SessionEnrollmentDetailsVM ToEnrollmentDetails(this Session session)
+        {
+            return new SessionEnrollmentDetailsVM
+            {
+                SessionId = session.Id,
+                StartTime = session.StartTime,
+                Status = session.Status,
+                EnrollmentId = session.EnrollmentId,
+                TeacherName = session.Enrollment.Teacher.User.FirstName + ' '+ session.Enrollment.Teacher.User.LastName,
+                TeacherImg = session.Enrollment.Teacher.User.ProfileImg ,
+                StudentName = session.Enrollment.Student.User.FirstName + ' ' + session.Enrollment.Student.User.LastName,
+                StudentImg = session.Enrollment.Student.User.ProfileImg
+
+
+
                 //PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
             };
         }

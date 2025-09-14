@@ -20,12 +20,12 @@ namespace QABS.Models
             builder.HasMany(en => en.Sessions)
                .WithOne(en => en.Enrollment)
                .HasForeignKey(en => en.EnrollmentId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(en => en.StudentPayment)
                 .WithOne(stpay => stpay.Enrollment)
                 .HasForeignKey<StudentPayment>(stpay  => stpay.EnrollmentId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
         }

@@ -13,7 +13,9 @@ namespace QABS.ViewModels
         public string? ProfileImg { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? LastLoginDate { get; set; }
-        public List<StudentPaymentDetailsVM>? studentpayments { get; set; }
+        public List<StudentPaymentDetailsVM>? Studentpayments { get; set; }
+
+        //public SpecializationType? Specialization { get; set; }
 
     }
 }

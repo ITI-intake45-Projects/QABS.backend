@@ -30,5 +30,11 @@ namespace QABS.ViewModels
 
         public StudentPaymentCreateVM? studentPayment { get; set; }
 
+        [Required]
+        public List<DayOfWeek> DaysOfWeek { get; set; } = new();
+
+        [Required]
+        public TimeSpan StartTime { get; set; }
+
     }
 }

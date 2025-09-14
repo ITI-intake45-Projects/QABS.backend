@@ -33,43 +33,101 @@ namespace QABS.Service
                 return ServiceResult<List<SessionDetailsVM>>.FailureResult(ex.Message);
             }
         }
-
-        public async Task<ServiceResult> CreateSessions(List<SessionCreateVM> sessionsVm)
+        public async Task<ServiceResult<List<SessionDetailsVM>>> GetTodaySessionsAsync()
         {
             try
             {
-                if (sessionsVm == null || !sessionsVm.Any())
+                var today = DateTime.UtcNow.Date; // بنستخدم UTC عشان نتفادى مشاكل الـ TimeZone
+
+                var sessions = await _unitOfWork._sessionRepository
+                    .GetList(s => s.StartTime.HasValue && s.StartTime.Value.Date == today)
+                    .Select(s => s.ToDetails())
+                    .ToListAsync();
+
+                if (sessions == null || !sessions.Any())
+                {
+                    return ServiceResult<List<SessionDetailsVM>>.FailureResult("No sessions found for today.");
+                }
+
+                return ServiceResult<List<SessionDetailsVM>>.SuccessResult(sessions, "Today's sessions retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<List<SessionDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
+
+
+        public async Task<ServiceResult<PaginationVM<SessionEnrollmentDetailsVM>>> SearchSessions(
+            DateTime? startDate = null,
+            bool descending = false,
+            int pageSize = 10,
+            int pageIndex = 1
+)
+        {
+            try
+            {
+                // لو startDate قيمته null، هيتحدد تلقائياً على إنه تاريخ اليوم فقط.
+                if (!startDate.HasValue)
+                {
+                    startDate = DateTime.Today;
+                }
+                var sessions = await _unitOfWork._sessionRepository.SearchSessions(
+                    startDate,
+                    descending,
+                    pageSize,
+                    pageIndex
+                );
+
+                return ServiceResult<PaginationVM<SessionEnrollmentDetailsVM>>.SuccessResult(
+                    sessions,
+                    "Sessions retrieved successfully."
+                );
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult<PaginationVM<SessionEnrollmentDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
+
+
+
+        public async Task<ServiceResult> CreateSessions(SessionCreateVM sessionsVm)
+        {
+            try
+            {
+                if (sessionsVm == null)
                 {
                     return ServiceResult.FailureResult("Invalid session data.");
                 }
 
-                // Assuming all sessions belong to the same enrollment
-                var enrollmentId = sessionsVm.First().EnrollmentId;
-                var enrollment = await _unitOfWork._enrollmentRepository.GetByIdAsync(enrollmentId);
+                // Fetch the enrollment details based on the single object
+                var enrollment = await _unitOfWork._enrollmentRepository.GetByIdAsync(sessionsVm.EnrollmentId);
 
                 if (enrollment == null)
                 {
                     return ServiceResult.FailureResult("Enrollment not found.");
                 }
 
-                // Calculate amount for each session and map to entity
-                var sessions = sessionsVm.Select(vm =>
-                {
-                    vm.Amount = enrollment.Teacher.HourlyRate *
-                                (decimal)((int)enrollment.SubscriptionPlan.Duration / 60.00);
-                    return vm.ToCreate();
-                }).ToList();
+                // Calculate amount for the single session and map it to the entity
+                sessionsVm.Amount = enrollment.Teacher.HourlyRate *
+                                    (decimal)((int)enrollment.SubscriptionPlan.Duration / 60.00);
 
-                await _unitOfWork._sessionRepository.AddRangeAsync(sessions);
+                // Convert the single ViewModel to a Session entity
+                var session = sessionsVm.ToCreate();
+
+                // Add the single session to the repository
+                await _unitOfWork._sessionRepository.AddAsync(session);
                 await _unitOfWork.SaveChangesAsync();
 
-                return ServiceResult.SuccessResult($"{sessions.Count} sessions created successfully.", HttpStatusCode.Created);
+                return ServiceResult.SuccessResult("Session created successfully.", HttpStatusCode.Created);
             }
             catch (Exception ex)
             {
                 return ServiceResult.FailureResult(ex.Message);
             }
         }
+
 
         public async Task<ServiceResult> UpdateSession(SessionEditVM vm)
         {

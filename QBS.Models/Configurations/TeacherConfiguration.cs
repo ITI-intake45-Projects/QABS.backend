@@ -35,7 +35,7 @@ namespace QABS.Models
             builder.HasOne(t => t.User)
                 .WithOne(u => u.Teacher)
                 .HasForeignKey<Teacher>(t => t.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

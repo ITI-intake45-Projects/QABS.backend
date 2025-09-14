@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QABS.Service;
 using QABS.ViewModels;
+using System.Threading.Tasks;
 
 namespace QABS.API.Controllers
 {
@@ -36,6 +37,23 @@ namespace QABS.API.Controllers
             }
             return new JsonResult(result);
         }
+
+
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchEnrollment(
+          [FromQuery] string? studentId = "",
+          [FromQuery] string? teacherId = "",
+          [FromQuery] DateTime? sortByDate = null ,
+          [FromQuery] bool descending = false,
+          [FromQuery] int pageSize = 5,
+          [FromQuery] int pageIndex = 1)
+        {
+            var result = await enrollmentService.SearchEnrollmentList(
+                studentId, teacherId, sortByDate, descending, pageSize, pageIndex);
+            if (!result.IsSuccess)
+                return new JsonResult(result);
+            return new JsonResult(result);
+        }
         [HttpGet("GetEnrollmentsByStudentId/{id}")]
         public async Task<IActionResult> GetEnrollmentsByStudentId(string id)
         {
@@ -68,16 +86,16 @@ namespace QABS.API.Controllers
             return new JsonResult(result);
         }
 
-        [HttpGet("SearchEnrollmentsByDate")]
-        public async Task<IActionResult> SearchEnrollmentsByDate([FromQuery]DateTime date)
-        {
-            var result = await enrollmentService.SearchEnrollmentsByDate(date);
-            if (result.IsSuccess)
-            {
-                return new JsonResult(result);
-            }
-            return new JsonResult(result);
-        }
+        //[HttpGet("SearchEnrollmentsByDate")]
+        //public async Task<IActionResult> SearchEnrollmentsByDate([FromQuery]DateTime date)
+        //{
+        //    var result = await enrollmentService.SearchEnrollmentsByDate(date);
+        //    if (result.IsSuccess)
+        //    {
+        //        return new JsonResult(result);
+        //    }
+        //    return new JsonResult(result);
+        //}
 
 
 

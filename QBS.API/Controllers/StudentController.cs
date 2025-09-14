@@ -14,6 +14,34 @@ namespace QABS.API.Controllers
         {
             this.studentService = studentService;
         }
+
+
+        [HttpGet("SearchStudents")]
+        public async Task<IActionResult> SearchStudents(
+            string name = "",
+            bool descending = false,
+            int pageSize = 10,
+            int pageIndex = 1
+
+            )
+        
+        {
+            var result = await studentService.StudentsSearch
+                (
+                name,
+                descending,
+                pageSize,
+                pageIndex
+
+                );
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
+
         [HttpGet("GetAllStudents")]
         public async Task<IActionResult> GetAllStudents()
         {
@@ -24,6 +52,19 @@ namespace QABS.API.Controllers
             }
             return new JsonResult(result);
         }
+
+
+        [HttpGet("GetAllStudentList")]
+        public async Task<IActionResult> GetAllStudentList()
+        {
+            var result = await studentService.GetAllStudentList();
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
 
         [HttpGet("GetStudentsByName/{name}")]
         public async Task<IActionResult> GetStudentsByName(string name)

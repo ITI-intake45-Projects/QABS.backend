@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QABS.Infrastructure;
 
@@ -11,9 +12,11 @@ using QABS.Infrastructure;
 namespace QABS.Infrastructure.Migrations
 {
     [DbContext(typeof(QABSDbContext))]
-    partial class QABSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250913151959_cascade1")]
+    partial class cascade1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

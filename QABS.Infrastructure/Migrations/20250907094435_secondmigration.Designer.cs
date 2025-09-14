@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QABS.Infrastructure;
 
@@ -11,9 +12,11 @@ using QABS.Infrastructure;
 namespace QABS.Infrastructure.Migrations
 {
     [DbContext(typeof(QABSDbContext))]
-    partial class QABSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250907094435_secondmigration")]
+    partial class secondmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -617,7 +620,7 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Student", "Student")
                         .WithMany("Enrollments")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("QABS.Models.SubscribtionPlan", "SubscriptionPlan")
@@ -644,7 +647,7 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Enrollment", "Enrollment")
                         .WithMany("Sessions")
                         .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("QABS.Models.TeacherPayout", "TeacherPayout")
@@ -673,12 +676,12 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Enrollment", "Enrollment")
                         .WithOne("StudentPayment")
                         .HasForeignKey("QABS.Models.StudentPayment", "EnrollmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("QABS.Models.Student", "Student")
                         .WithMany("StudentPayments")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Enrollment");

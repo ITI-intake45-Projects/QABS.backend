@@ -10,6 +10,7 @@ using QABS.Repository;
 using QABS.ViewModels;
 using QABS.ViewModels.User;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Utilities;
@@ -28,51 +29,56 @@ namespace QABS.Service
             appSettingConfiguration = configuration;
         }
 
-        public async Task<IdentityResult> CreateAccount(UserRegisterVM user)
+        public async Task<ServiceResult> CreateAccount(UserRegisterVM user)
         {
-
-            if(IsEmailTaken(user.Email).Result)
+            // ✅ تحقق من الإيميل
+            if (await IsEmailTaken(user.Email))
             {
-                return IdentityResult.Failed(new IdentityError { Description = "Email is already taken." });
+                return ServiceResult.FailureResult("الايميل المدخل تم استخدامه من قبل.", HttpStatusCode.BadRequest);
             }
 
-            if(user.ImageFile != null)
+            // ✅ لو فيه صورة، ارفعها
+            if (user.ImageFile != null)
             {
-                user.ProfileImg = UploadMedia.addimage(user.ImageFile);
+                user.ProfileImg = await UploadMedia.AddImageAsync(user.ImageFile);
             }
 
+            // ✅ أنشئ اليوزر باستخدام Identity
             var userRes = await _unitOfWork._userRepository.Register(user);
 
             if (userRes.Succeeded)
             {
                 var currentUser = await _unitOfWork._userRepository.FindByEmailAsync(user.Email);
+
+                // Add role-specific records
                 if (user.Role == "Admin")
                 {
-                    //Add Record In Admin table
                     await _unitOfWork._adminRepository.AddAsync(new Admin() { UserId = currentUser.Id });
-                    //return IdentityResult.Success;
                 }
-
                 else if (user.Role == "Teacher")
                 {
-                    //Add Record In Teacher table
-                    await _unitOfWork._teacherRepository.AddAsync(new Teacher() 
-                    { UserId = currentUser.Id, HourlyRate = user.HourlyRate , Specializations = user.Specializations });
-                    //return IdentityResult.Success;
+                    await _unitOfWork._teacherRepository.AddAsync(new Teacher()
+                    {
+                        UserId = currentUser.Id,
+                        HourlyRate = user.HourlyRate,
+                        Specializations = user.Specializations
+                    });
                 }
-
                 else if (user.Role == "Student")
                 {
-                    //Add Record In Student table
                     await _unitOfWork._studentRepository.AddAsync(new Student() { UserId = currentUser.Id });
-                    //return IdentityResult.Success;
                 }
+
                 await _unitOfWork.SaveChangesAsync();
-                return IdentityResult.Success;
+
+                return ServiceResult.SuccessResult("Account created successfully.");
             }
 
-            return IdentityResult.Failed();
+            // ✅ لو حصلت Errors من Identity
+            var errors = string.Join(", ", userRes.Errors.Select(e => e.Description));
+            return ServiceResult.FailureResult(errors, HttpStatusCode.BadRequest);
         }
+
 
         public async Task<bool> IsEmailTaken(string email)
         {
@@ -133,6 +139,16 @@ namespace QABS.Service
         public async Task Signout()
         {
             await _unitOfWork._userRepository.Signout();
+        }
+
+        public async Task DeleteAccount(string id)
+        {
+            var user = _unitOfWork._userRepository.FindById(id);
+            if (user != null)
+            {
+                await _unitOfWork._userRepository.Delete(user.Result);
+                await _unitOfWork.SaveChangesAsync();
+            }
         }
 
     }

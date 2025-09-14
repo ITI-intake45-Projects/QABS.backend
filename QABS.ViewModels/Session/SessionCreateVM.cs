@@ -8,7 +8,7 @@ namespace QABS.ViewModels
     {
         [Required]
         public DateTime StartTime { get; set; }
-        public SessionStatus Status { get; set; } = SessionStatus.Scheduled;
+        public SessionStatus Status { get; set; } 
 
         public decimal? Amount { get; set; }
       

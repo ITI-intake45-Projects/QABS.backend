@@ -1,6 +1,7 @@
 ﻿
 using QABS.Repository;
 using QABS.ViewModels;
+using System.Data.Entity;
 using Utilities;
 
 namespace QABS.Service
@@ -14,17 +15,75 @@ namespace QABS.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> GetAllStudents()
+        public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> StudentsSearch
+            (
+            string name = "",
+            bool descending = false,
+            int pageSize = 10,
+            int pageIndex = 1
+
+            )
         {
             try
             {
-                var students = await _unitOfWork._studentRepository.SearchStudents();
+                var students = await _unitOfWork._studentRepository.SearchStudents(
+                    name, 
+                    descending, 
+                    pageSize,
+                    pageIndex
+                    );
                 return ServiceResult<PaginationVM<StudentDetailsVM>>.SuccessResult(students, "Students retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
                 return ServiceResult<PaginationVM<StudentDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
+
+
+
+        public async Task<ServiceResult<List<StudentDetailsVM>>> GetAllStudents()
+        {
+            try
+            {
+                //var students = await _unitOfWork._studentRepository.GetList().Select(s => s.ToDetails()).ToListAsync();
+                var students = await _unitOfWork._studentRepository.GetAllAsync();
+                var result = students.Select(s => s.ToDetails()).ToList();
+
+                if (result != null)
+                {
+                    return ServiceResult<List<StudentDetailsVM>>.SuccessResult(result, "Students retrieved successfully.");
+
+                }
+                return ServiceResult<List<StudentDetailsVM>>.FailureResult("Students not found.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<List<StudentDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
+
+        public async Task<ServiceResult<List<StudentListVM>>> GetAllStudentList()
+        {
+            try
+            {
+                //var students = await _unitOfWork._studentRepository.GetList().Select(s => s.ToDetails()).ToListAsync();
+                var students = await _unitOfWork._studentRepository.GetAllAsync();
+                var result = students.Select(s => s.ToList()).ToList();
+
+                if (result != null)
+                {
+                    return ServiceResult<List<StudentListVM>>.SuccessResult(result, "Students retrieved successfully.");
+
+                }
+                return ServiceResult<List<StudentListVM>>.FailureResult("Students not found.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<List<StudentListVM>>.FailureResult(ex.Message);
             }
         }
 

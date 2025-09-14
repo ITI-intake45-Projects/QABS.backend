@@ -24,6 +24,19 @@ namespace QABS.API.Controllers
             }
             return new JsonResult(result);
         }
+
+        [HttpGet("GetAllTeacherList")]
+        public async Task<IActionResult> GetAllTeacherList()
+        {
+            var result = await teacherService.GetAllTeacherList();
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
+
         [HttpGet("GetTeachersByName/{name}")]
         public async Task<IActionResult> GetTeachersByName(string name)
         {

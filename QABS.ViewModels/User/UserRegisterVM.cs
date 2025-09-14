@@ -44,6 +44,8 @@ namespace QABS.ViewModels
 
         [Range(0, 1000, ErrorMessage = "Hourly rate must be between 0 and 1000.")]
         public decimal? HourlyRate { get; set; }
+        //public List<TeacherAvailability>? teacherAvailabilities { get; set; }
+        public List<TeacherAvailabilityCreateVM>? teacherAvailabilities { get; set; }
 
         public List<SpecializationType>? Specializations { get; set; }
     }

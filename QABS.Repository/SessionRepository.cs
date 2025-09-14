@@ -4,6 +4,7 @@ using QABS.Models;
 using QABS.ViewModels;
 using System.Collections.Immutable;
 using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace QABS.Repository
 {
@@ -14,6 +15,40 @@ namespace QABS.Repository
         }
 
         // Additional methods for SessionRepository can be added here
+
+
+        public async Task<PaginationVM<SessionEnrollmentDetailsVM>> SearchSessions(
+            DateTime? startDate = null,
+            bool descending = false,
+            int pageSize = 10,
+            int pageIndex = 1
+)
+        {
+            try
+            {
+                Expression<Func<Session, bool>>? filter = null;
+
+                if (startDate.HasValue)
+                {
+                    var targetDate = startDate.Value.Date;
+                    filter = s => s.StartTime.HasValue && s.StartTime.Value.Date == targetDate;
+                }
+
+                return await SearchAsync(
+                    filter,
+                    s => s.StartTime,   // الترتيب حسب وقت البداية
+                    s => s.ToEnrollmentDetails(),
+                    descending,
+                    pageSize,
+                    pageIndex
+                );
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<List<SessionDetailsVM>> GetSessionsByEnrollmentIdAsync(int enrollmentId)
         {
             try

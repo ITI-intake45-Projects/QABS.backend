@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QABS.Models;
 using QABS.Repository;
 using QABS.ViewModels;
+using System.Data.Entity;
 using System.Net;
 using Utilities;
 
@@ -20,19 +21,36 @@ namespace QABS.Service
 
 
 
-        public async Task<ServiceResult<PaginationVM<TeacherDetailsVM>>> GetAllTeachers()
+        public async Task<ServiceResult<List<TeacherDetailsVM>>> GetAllTeachers()
         {
             try
             {
-                var teachers = await _unitOfWork._teacherRepository.SearchTeachers();
-                return ServiceResult<PaginationVM<TeacherDetailsVM>>.SuccessResult(teachers, "Teachers retrieved successfully.");
+                var teachers = await _unitOfWork._teacherRepository.GetAllAsync();
+                var result = teachers.Select(t => t.ToDetails()).ToList();
+                return ServiceResult<List<TeacherDetailsVM>>.SuccessResult(result, "Teachers retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
-                return ServiceResult<PaginationVM<TeacherDetailsVM>>.FailureResult(ex.Message);
+                return ServiceResult<List<TeacherDetailsVM>>.FailureResult(ex.Message);
             }
         }
+
+        public async Task<ServiceResult<List<TeacherListVM>>> GetAllTeacherList()
+        {
+            try
+            {
+                var teachers = await _unitOfWork._teacherRepository.GetAllAsync();
+                var result = teachers.Select(t => t.ToList()).ToList();
+                return ServiceResult<List<TeacherListVM>>.SuccessResult(result, "Teachers retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<List<TeacherListVM>>.FailureResult(ex.Message);
+            }
+        }
+
         public async Task<ServiceResult<PaginationVM<TeacherDetailsVM>>> GetTeachersByName(string name)
         {
             try
@@ -88,7 +106,7 @@ namespace QABS.Service
                 vm.TotalAmount = completedSessions.Sum(s => s.Amount);
                 vm.TotalHours = completedSessions.Sum(s => (decimal)((int)s.Enrollment.SubscriptionPlan.Duration / 60));
 
-                vm.ImageUrl = UploadMedia.addimage(vm.ImageFile);
+                vm.ImageUrl = await UploadMedia.AddImageAsync(vm.ImageFile);
 
                 var teacherPayout = vm.ToCreate();
                 await _unitOfWork._teacherPayoutRepositroy.AddAsync(teacherPayout);

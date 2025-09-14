@@ -15,6 +15,29 @@ namespace QABS.API.Controllers
             _sessionService = sessionService;
         }
 
+        [HttpGet("SearchSessions")]
+        public async Task<IActionResult> SearchSessions(
+            DateTime? startDate = null,
+            bool descending = false,
+            int pageSize = 10,
+            int pageIndex = 1
+)
+        {
+            var result = await _sessionService.SearchSessions(
+                startDate,
+                descending,
+                pageSize,
+                pageIndex
+            );
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+
+            return new JsonResult(result);
+        }
+
+
         [HttpGet("GetAllSessionsByEnrollmentId/{id}")]
         public async Task<IActionResult> GetAllSessionsByEnrollmentId(int id)
         {
@@ -27,8 +50,8 @@ namespace QABS.API.Controllers
         }
 
 
-        [HttpPost("CreateSessions")]
-        public async Task<IActionResult> CreateSessions([FromBody] List<SessionCreateVM> sessionsVm)
+        [HttpPost("CreateSession")]
+        public async Task<IActionResult> CreateSessions([FromBody] SessionCreateVM sessionsVm)
         {
             var result = await _sessionService.CreateSessions(sessionsVm);
             if (result.IsSuccess)
@@ -39,9 +62,11 @@ namespace QABS.API.Controllers
         }
 
         [HttpPut("UpdateSession")]
-        public async Task<IActionResult> UpdateSession([FromBody] SessionEditVM sessionsVm)
+        public async Task<IActionResult> UpdateSession([FromBody] SessionEditVM vm)
         {
-            var result = await _sessionService.UpdateSession(sessionsVm);
+
+            
+            var result = await _sessionService.UpdateSession(vm);
             if (result.IsSuccess)
             {
                 return new JsonResult(result);
