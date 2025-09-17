@@ -30,6 +30,7 @@ namespace QABS.ViewModels
                 Amount = studentPayment.Amount,
                 PaymentDate = studentPayment.PaymentDate,
                 ImageUrl = studentPayment.ImageUrl,
+                Status = studentPayment.Status,
                 StudentName = studentPayment.Student?.User.FirstName + " " + studentPayment.Student?.User.LastName, // Assuming Student has a Name property
                 EnrollmentDetailsVM = studentPayment.Enrollment?.ToDetails() // Assuming Enrollment has a ToDetailsVM method
             };

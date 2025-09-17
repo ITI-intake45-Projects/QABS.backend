@@ -1,4 +1,6 @@
 ﻿
+using QABS.Models;
+
 namespace QABS.ViewModels
 {
     public class StudentPaymentDetailsVM
@@ -8,6 +10,7 @@ namespace QABS.ViewModels
         public DateTime PaymentDate { get; set; }
         public string? ImageUrl { get; set; } // صورة من ايصال الدفع
 
+        public StudentPaymentStatus Status { get; set; } // حالة الدفع (معلق، مقبول، مرفوض)
         public string StudentName { get; set; } // اسم الطالب
 
         public EnrollmentDetailsVM EnrollmentDetailsVM { get; set; } // تفاصيل التسجيل المرتبط بالدفع
