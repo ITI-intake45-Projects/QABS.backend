@@ -49,6 +49,19 @@ namespace QABS.API.Controllers
             return new JsonResult(result);
         }
 
+        [HttpGet("GetCompletedSessionsByTeacherId/{id}")]
+        public async Task<IActionResult> GetCompletedSessionsByTeacherId(string id)
+        {
+            var result = await _sessionService.GetCompletedSessionsDetailsByTeacherId(id);
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
+
+
 
         [HttpPost("CreateSession")]
         public async Task<IActionResult> CreateSessions([FromBody] SessionCreateVM sessionsVm)

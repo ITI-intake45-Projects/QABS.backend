@@ -36,6 +36,7 @@ namespace QABS.Service
 
                 // ✅ إنشاء Enrollment
                 var enrollment = vm.ToCreate();
+                enrollment.EndDate = vm.StartDate; // مؤقت
                 await _unitOfWork._enrollmentRepository.AddAsync(enrollment);
                 await _unitOfWork.SaveChangesAsync(); // لازم عشان يطلع الـ Id
 
@@ -84,6 +85,8 @@ namespace QABS.Service
                     );
 
                     await _unitOfWork._sessionRepository.AddRangeAsync(sessions);
+                    enrollment.EndDate = sessions.Max(s => s.StartTime)?.Date;
+                    await _unitOfWork._enrollmentRepository.UpdateAsync(enrollment);
                 }
 
                 // ✅ حفظ كل التغييرات مرة واحدة
@@ -144,7 +147,9 @@ namespace QABS.Service
             (
               string? studentId = "",
               string? teacherId = "",
-              DateTime? sortBy = null,
+              DateTime? startDate = null,
+              int? day = null,
+              EnrollmentStatus? status = null,
               bool descending = false,
               int pageSize = 5,
               int pageIndex = 1
@@ -153,7 +158,7 @@ namespace QABS.Service
             try
             {
                 var enrollments = await _unitOfWork._enrollmentRepository.SearchEnrollmentList(
-                    studentId, teacherId, sortBy, descending, pageSize, pageIndex);
+                    studentId, teacherId, startDate,day,status, descending, pageSize, pageIndex);
 
                 return ServiceResult<PaginationVM<EnrollmentListVM>>.SuccessResult(enrollments, "Enrollments retrieved successfully.");
             }
@@ -230,6 +235,42 @@ namespace QABS.Service
             {
                 // Log the exception or handle it as needed
                 return ServiceResult<PaginationVM<EnrollmentDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
+        // Hang Fire : 
+        public async Task HangFireUpdateEnrollments()
+        {
+            try
+            {
+                // Get all active enrollments
+                var enrollments =  _unitOfWork._enrollmentRepository
+                    .GetList(e => e.Status == EnrollmentStatus.Active);
+                 enrollments.ToList();
+               
+                if (enrollments == null || !enrollments.Any())
+                return;
+
+                foreach (var enrollment in enrollments)
+                {
+                    if (enrollment.Sessions != null && enrollment.Sessions.Any())
+                    {
+                        // Check if all sessions are in Completed, Paid, or Cancelled
+                        bool allFinished = enrollment.Sessions.Any(s =>
+                            s.Status == SessionStatus.Scheduled);
+
+                        if (!allFinished)
+                        {
+                            enrollment.Status = EnrollmentStatus.Completed;
+                        }
+                    }
+                }
+
+                await _unitOfWork._enrollmentRepository.UpdateRangeAsync(enrollments);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating enrollments: " + ex.Message);
             }
         }
 

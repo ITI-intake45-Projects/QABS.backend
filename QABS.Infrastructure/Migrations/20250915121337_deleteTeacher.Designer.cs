@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QABS.Infrastructure;
 
@@ -11,9 +12,11 @@ using QABS.Infrastructure;
 namespace QABS.Infrastructure.Migrations
 {
     [DbContext(typeof(QABSDbContext))]
-    partial class QABSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250915121337_deleteTeacher")]
+    partial class deleteTeacher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -629,7 +632,7 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Teacher", "Teacher")
                         .WithMany("Enrollments")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Student");
@@ -702,7 +705,7 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Teacher", "Teacher")
                         .WithMany("TeacherAvailabilities")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Teacher");
@@ -713,7 +716,7 @@ namespace QABS.Infrastructure.Migrations
                     b.HasOne("QABS.Models.Teacher", "Teacher")
                         .WithMany("TeachersPayouts")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Teacher");

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QABS.Models;
 using QABS.Service;
 using QABS.ViewModels;
 using System.Threading.Tasks;
@@ -43,13 +44,15 @@ namespace QABS.API.Controllers
         public async Task<IActionResult> SearchEnrollment(
           [FromQuery] string? studentId = "",
           [FromQuery] string? teacherId = "",
-          [FromQuery] DateTime? sortByDate = null ,
+          [FromQuery] DateTime? startDate = null ,
+          [FromQuery] int? day = null,
+          [FromQuery] EnrollmentStatus? status = null,
           [FromQuery] bool descending = false,
           [FromQuery] int pageSize = 5,
           [FromQuery] int pageIndex = 1)
         {
             var result = await enrollmentService.SearchEnrollmentList(
-                studentId, teacherId, sortByDate, descending, pageSize, pageIndex);
+                studentId, teacherId, startDate,day,status, descending, pageSize, pageIndex);
             if (!result.IsSuccess)
                 return new JsonResult(result);
             return new JsonResult(result);

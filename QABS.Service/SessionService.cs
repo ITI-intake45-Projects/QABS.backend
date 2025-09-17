@@ -33,6 +33,24 @@ namespace QABS.Service
                 return ServiceResult<List<SessionDetailsVM>>.FailureResult(ex.Message);
             }
         }
+
+        public async Task<ServiceResult<List<SessionDetailsVM>>> GetCompletedSessionsDetailsByTeacherId(string id)
+        {
+            try
+            {
+                var sessions = await _unitOfWork._sessionRepository.GetCompletedSessionsDetailsByTeacherId(id);
+                if(sessions == null || !sessions.Any())
+                {
+                    return ServiceResult<List<SessionDetailsVM>>.FailureResult("not session completed found");
+                }
+                return ServiceResult<List<SessionDetailsVM>>.SuccessResult(sessions, "Sessions retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<List<SessionDetailsVM>>.FailureResult(ex.Message);
+            }
+        }
         public async Task<ServiceResult<List<SessionDetailsVM>>> GetTodaySessionsAsync()
         {
             try
@@ -154,8 +172,8 @@ namespace QABS.Service
             try
             {
                 var nowUtc = DateTime.UtcNow;
-                var sessions = await _unitOfWork._sessionRepository.GetList(s => s.Status == SessionStatus.Scheduled && s.StartTime < nowUtc).ToListAsync();
-
+                var sessions =  _unitOfWork._sessionRepository.GetList(s => s.Status == SessionStatus.Scheduled && s.StartTime < nowUtc);
+                var resultSessions = sessions.ToList();
                 if (sessions == null || !sessions.Any())
                 {
                     return; // No sessions to update

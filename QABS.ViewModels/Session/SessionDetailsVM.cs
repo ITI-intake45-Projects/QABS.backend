@@ -11,6 +11,8 @@ namespace QABS.ViewModels
         public decimal? Amount { get; set; }
         public int EnrollmentId { get; set; }
 
+        public decimal? Duration { get; set; }
+
         //list of payout items
         //public List<PayoutItemDetailsVM> PayoutItemsDetails { get; set; } = new List<PayoutItemDetailsVM>();
 

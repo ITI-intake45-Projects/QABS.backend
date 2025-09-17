@@ -68,16 +68,18 @@ namespace QABS.API.Controllers
             return new JsonResult(result);
         }
 
-        [HttpPost("PayTeacherByCompletedSessions")]
-        public async Task<IActionResult> PayTeacherByCompletedSessions([FromBody] TeacherPayoutCreateVM vm)
+        [HttpPost("CreatePayTeacherByCompletedSessions")]
+        public async Task<IActionResult> CreatePayTeacherByCompletedSessions([FromForm] TeacherPayoutCreateVM vm)
         {
-            var result = await teacherService.PayTeacherByCompletedSessions(vm);
+            var result = await teacherService.CreatePayTeacherByCompletedSessions(vm);
             if (result.IsSuccess)
             {
                 return new JsonResult(result);
             }
             return new JsonResult(result);
         }
+
+
 
         [HttpGet("GetPayoutByMonthAsync")]
         public async Task<IActionResult> GetPayoutByMonthAsync([FromQuery] DateTime date)
@@ -91,7 +93,7 @@ namespace QABS.API.Controllers
         }
 
         [HttpPost("CreateTeacherAvaliability")]
-        public async Task<IActionResult> CreateTeacherAvaliability([FromBody] List<TeacherAvailabilityCreateVM> vm)
+        public async Task<IActionResult> CreateTeacherAvaliability([FromBody] TeacherAvailabilityCreateVM vm)
         {
             var result = await teacherService.CreateTeacherAvaliability(vm);
             if (result.IsSuccess)
@@ -111,6 +113,32 @@ namespace QABS.API.Controllers
             }
             return new JsonResult(result);
         }
+
+
+        [HttpDelete("DeleteTeacherAvaliability/{id}")]
+        public async Task<IActionResult> DeleteTeacherAvaliability(int id)
+        {
+            var result = await teacherService.DeleteTeacherAvaliability(id);
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
+
+        //[HttpDelete("DeleteTeacher/{id}")]
+        //public async Task<IActionResult> DeleteTeacher(string id)
+        //{
+        //    var result = await teacherService.DeleteTeacherAsync(id);
+
+        //    if (result.IsSuccess)
+        //    {
+        //        return new JsonResult(result);
+        //    }
+
+        //    return new JsonResult(result);
+        //}
 
     }
 }

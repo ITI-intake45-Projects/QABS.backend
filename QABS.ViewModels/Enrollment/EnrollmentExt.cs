@@ -17,7 +17,8 @@ namespace QABS.ViewModels
                 EndDate = enrollment.EndDate,
                 EnrollmentFee = enrollment.EnrollmentFee,
                 Discount = enrollment.Discount ?? 0,
-                
+                Status = EnrollmentStatus.Active
+
 
                 //StudentPayment = enrollment.studentPayment.ToCreate()
             };

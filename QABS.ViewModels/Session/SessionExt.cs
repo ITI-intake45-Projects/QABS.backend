@@ -27,7 +27,9 @@ namespace QABS.ViewModels
                 Status = session.Status,
                 EnrollmentId = session.EnrollmentId,
                 Amount = session.Amount,
-               
+                Duration = ((decimal)session.Enrollment.SubscriptionPlan.Duration) / 60,
+
+
                 //PayoutItemsDetails = session.PayoutItems.Select(p => p.ToDetails()).ToList()
             };
         }

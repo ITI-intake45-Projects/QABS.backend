@@ -93,7 +93,7 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> PayTeacherByCompletedSessions(TeacherPayoutCreateVM vm)
+        public async Task<ServiceResult> CreatePayTeacherByCompletedSessions(TeacherPayoutCreateVM vm)
         {
             try
             {
@@ -104,25 +104,38 @@ namespace QABS.Service
                     return ServiceResult.FailureResult("No completed sessions found for the teacher.");
                 }
                 vm.TotalAmount = completedSessions.Sum(s => s.Amount);
-                vm.TotalHours = completedSessions.Sum(s => (decimal)((int)s.Enrollment.SubscriptionPlan.Duration / 60));
+                vm.TotalHours = completedSessions.Sum(s => ((decimal)s.Enrollment.SubscriptionPlan.Duration / 60));
 
                 vm.ImageUrl = await UploadMedia.AddImageAsync(vm.ImageFile);
 
+                var updatedSessions = completedSessions
+             .Select(session =>
+             {
+                 session.Status = SessionStatus.Paid;
+                 return session;
+             }).ToList();
+
+                vm.sessionDetails = updatedSessions.Select(session => session.ToDetails()).ToList();
                 var teacherPayout = vm.ToCreate();
                 await _unitOfWork._teacherPayoutRepositroy.AddAsync(teacherPayout);
                 await _unitOfWork.SaveChangesAsync();
 
                 //Like ForEach Loop
-                var updatedSessions = completedSessions
+               
+
+
+
+                var updated = updatedSessions
                     .Select(session =>
                     {
                         session.TeacherPayoutId = teacherPayout.Id;
-                        session.Status = SessionStatus.Paid;
+                        
                         return session;
                     }).ToList();
+                
 
                 // Update all sessions in bulk if your repository supports it
-                await _unitOfWork._sessionRepository.UpdateRangeAsync(updatedSessions);
+                await _unitOfWork._sessionRepository.UpdateRangeAsync(updated);
                 await _unitOfWork.SaveChangesAsync();
 
                 return ServiceResult.SuccessResult("Teacher payout processed successfully.", HttpStatusCode.Created);
@@ -147,31 +160,53 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> CreateTeacherAvaliability( List<TeacherAvailabilityCreateVM> vm)
+        public async Task<ServiceResult> CreateTeacherAvaliability(TeacherAvailabilityCreateVM vm)
         {
             try
             {
-                if (vm == null || !vm.Any())
+                if (vm == null)
                 {
-                    return ServiceResult.FailureResult("Invalid avaliability data.");
+                    return ServiceResult.FailureResult("Invalid availability data.");
                 }
 
-                // Calculate amount for each session and map to entity
-                var createdAvaliabilities = vm.Select(vm =>
-                {
-                    return vm.ToCreate();
-                }).ToList();
+                // Map VM → Entity
+                var entity = vm.ToCreate();
 
-                await _unitOfWork._teacherAvailabilityRepository.AddRangeAsync(createdAvaliabilities);
+                await _unitOfWork._teacherAvailabilityRepository.AddAsync(entity);
                 await _unitOfWork.SaveChangesAsync();
 
-                return ServiceResult.SuccessResult($"{createdAvaliabilities.Count} avaliabilites created successfully.", HttpStatusCode.Created);
+                return ServiceResult.SuccessResult("Availability created successfully.", HttpStatusCode.Created);
             }
             catch (Exception ex)
             {
                 return ServiceResult.FailureResult(ex.Message);
             }
         }
+
+
+        public async Task<ServiceResult> DeleteTeacherAvaliability(int id)
+        {
+            try
+            {
+
+                var TeacherAvailability = await _unitOfWork._teacherAvailabilityRepository.GetByIdAsync(id);
+                if (TeacherAvailability == null)
+                {
+                    return ServiceResult.FailureResult("not found TeacherAvailability.");
+                }
+
+                await _unitOfWork._teacherAvailabilityRepository.Delete(TeacherAvailability);
+
+                await _unitOfWork.SaveChangesAsync();
+
+                return ServiceResult.SuccessResult("Availability Deleted Successfully.", HttpStatusCode.OK);
+            }
+            catch (Exception ex)
+            {
+                return ServiceResult.FailureResult(ex.Message);
+            }
+        }
+
 
         public async Task<ServiceResult> UpdateTeacherAvaliability(TeacherAvailabilityEditVM vm)
         {
@@ -199,6 +234,97 @@ namespace QABS.Service
                 return ServiceResult.FailureResult(ex.Message);
             }
         }
+
+        //public async Task<ServiceResult> DeleteTeacherAsync(string teacherId)
+        //{
+        //    try
+        //    {
+        //        var teacher = await _unitOfWork._teacherRepository
+        //            .GetByIdAsync(teacherId);
+
+        //        if (teacher == null)
+        //            return ServiceResult.FailureResult("Teacher not found");
+
+        //        // 🗑️ امسح الـ Enrollments المرتبطة
+        //        if (teacher.Enrollments != null && teacher.Enrollments.Any())
+        //        {
+        //            foreach (var enrollment in teacher.Enrollments)
+        //            {
+        //                // ✅ جيب الـ StudentPayment الخاص بالـ Enrollment
+        //                var payment = _unitOfWork._studentPaymentRepository
+        //                    .GetList(p => p.EnrollmentId == enrollment.Id)
+        //                    .FirstOrDefault();
+
+        //                if (payment != null)
+        //                {
+        //                    await _unitOfWork._studentPaymentRepository.Delete(payment);
+        //                }
+        //            }
+
+        //            // بعد كده امسح الـ Enrollments نفسها
+        //            await _unitOfWork._enrollmentRepository.DeleteRange(teacher.Enrollments);
+        //        }
+
+        //        // 🗑️ امسح Teacher نفسه
+        //        await _unitOfWork._teacherRepository.Delete(teacher);
+
+        //        await _unitOfWork.SaveChangesAsync();
+
+        //        return ServiceResult.SuccessResult("Teacher deleted successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ServiceResult.FailureResult(ex.Message);
+        //    }
+        //}
+
+
+        //public async Task<ServiceResult> DeleteTeacherAsync(string teacherId)
+        //{
+        //    try
+        //    {
+        //        // ✅ هات الـ Teacher مع Enrollments و StudentPayments
+        //        var teacher = await _unitOfWork._teacherRepository
+        //            .GetList(t => t.UserId == teacherId)
+        //            .Include(t => t.Enrollments)
+        //                .ThenInclude(e => e.StudentPayments)
+        //            .FirstOrDefaultAsync();
+
+        //        if (teacher == null)
+        //            return ServiceResult.FailureResult("Teacher not found");
+
+        //        // 🗑️ امسح StudentPayments المرتبطة
+        //        if (teacher.Enrollments != null && teacher.Enrollments.Any())
+        //        {
+        //            foreach (var enrollment in teacher.Enrollments)
+        //            {
+        //                if (enrollment.StudentPayments != null && enrollment.StudentPayments.Any())
+        //                {
+        //                    await _unitOfWork._studentPaymentRepository.DeleteRange(enrollment.StudentPayments);
+        //                }
+        //            }
+
+        //            // 🗑️ امسح Enrollments نفسها
+        //            await _unitOfWork._enrollmentRepository.DeleteRange(teacher.Enrollments);
+        //        }
+
+        //        // 🗑️ امسح Teacher نفسه
+        //        await _unitOfWork._teacherRepository.Delete(teacher);
+
+        //        await _unitOfWork.SaveChangesAsync();
+
+        //        return ServiceResult.SuccessResult("Teacher deleted successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ServiceResult.FailureResult(ex.Message);
+        //    }
+        //}
+
+
+
+
+
 
 
 

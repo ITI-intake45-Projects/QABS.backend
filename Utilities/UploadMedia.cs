@@ -10,7 +10,7 @@ namespace Utilities
 
         public static async Task<string> AddImageAsync(IFormFile file)
         {
-            if (file.Length == 0)
+            if (file == null || file.Length == 0)
                 return string.Empty;
 
             using var ms = new MemoryStream();

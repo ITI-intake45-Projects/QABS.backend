@@ -86,6 +86,20 @@ namespace QABS.Repository
             }
         }
 
+        public async Task DeleteRange(IEnumerable<T> entities)
+        {
+            try
+            {
+                Table.RemoveRange(entities);
+                await Task.CompletedTask;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
         public async Task<T?> GetByIdAsync(int id)
         {
             try

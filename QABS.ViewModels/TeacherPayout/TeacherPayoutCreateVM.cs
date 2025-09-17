@@ -15,7 +15,8 @@ namespace QABS.ViewModels
         public decimal? TotalHours { get; set; }   // optional but useful
         public decimal? TotalAmount { get; set; }  // HourlyRate * TotalHours
         public IFormFile? ImageFile { get; set; } // صورة من ايصال الدفع (ملف)
-        public List<int>? SessionIds { get; set; }
+        //public List<int>? SessionIds { get; set; }
+        public List<SessionDetailsVM>? sessionDetails { get; set; }
 
     }
 }

@@ -154,6 +154,11 @@ RecurringJob.AddOrUpdate<SessionService>(
     s => s.HangFireUpdateSessions(),
     Cron.Daily);
 
+RecurringJob.AddOrUpdate<EnrollmentService>(
+    "HangFireUpdateEnrollments",
+    s => s.HangFireUpdateEnrollments(),
+    Cron.Daily);
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

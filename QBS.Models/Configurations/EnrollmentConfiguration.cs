@@ -22,12 +22,13 @@ namespace QABS.Models
                .HasForeignKey(en => en.EnrollmentId)
                .OnDelete(DeleteBehavior.Cascade);
 
+
             builder.HasOne(en => en.StudentPayment)
                 .WithOne(stpay => stpay.Enrollment)
                 .HasForeignKey<StudentPayment>(stpay  => stpay.EnrollmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
+             
         }
     }
 }

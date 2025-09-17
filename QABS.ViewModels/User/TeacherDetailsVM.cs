@@ -18,6 +18,7 @@ namespace QABS.ViewModels
         public int? EnrollmentsCount { get; set; }
         public List<SpecializationType> Specializations { get; set; }
         public List<TeacherAvailabilityDetailsVM>? Availability { get; set; }
+        public List<TeacherPayoutDetailsVM>? Payouts { get; set; }
 
     }
 }

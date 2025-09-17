@@ -15,7 +15,7 @@ namespace QABS.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> StudentsSearch
+        public async Task<ServiceResult<PaginationVM<StudentListMoreInfoVM>>> StudentsSearch
             (
             string name = "",
             bool descending = false,
@@ -32,12 +32,12 @@ namespace QABS.Service
                     pageSize,
                     pageIndex
                     );
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.SuccessResult(students, "Students retrieved successfully.");
+                return ServiceResult<PaginationVM<StudentListMoreInfoVM>>.SuccessResult(students, "Students retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.FailureResult(ex.Message);
+                return ServiceResult<PaginationVM<StudentListMoreInfoVM>>.FailureResult(ex.Message);
             }
         }
 
@@ -87,17 +87,17 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult<PaginationVM<StudentDetailsVM>>> GetStudentsByName(string name)
+        public async Task<ServiceResult<PaginationVM<StudentListMoreInfoVM>>> GetStudentsByName(string name)
         {
             try
             {
                 var students = await _unitOfWork._studentRepository.SearchStudents(name);
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.SuccessResult(students, "Students retrieved successfully.");
+                return ServiceResult<PaginationVM<StudentListMoreInfoVM>>.SuccessResult(students, "Students retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
-                return ServiceResult<PaginationVM<StudentDetailsVM>>.FailureResult(ex.Message);
+                return ServiceResult<PaginationVM<StudentListMoreInfoVM>>.FailureResult(ex.Message);
             }
         }
 

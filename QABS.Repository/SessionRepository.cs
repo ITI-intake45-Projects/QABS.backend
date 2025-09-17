@@ -60,6 +60,7 @@ namespace QABS.Repository
                 throw;
             }
         }
+    
 
         public async Task<List<SessionDetailsVM>> GetSessionsByTeacherPayoutIdAsync(int teacherPayoutId)
         {
@@ -77,13 +78,31 @@ namespace QABS.Repository
         {
             try
             {
-                return await GetList(s => s.Enrollment.TeacherId == teacherId && s.Status == SessionStatus.Completed).ToListAsync();
+                var sessions = GetList(s => s.Enrollment.TeacherId == teacherId && s.Status == SessionStatus.Completed);
+                return  sessions.ToList();
             }
             catch
             {
                 throw;
             }
         }
+
+        public async Task<List<SessionDetailsVM>> GetCompletedSessionsDetailsByTeacherId(string teacherId)
+        {
+            try
+            {
+                var sessions = GetList(s => s.Enrollment.TeacherId == teacherId && s.Status == SessionStatus.Completed);
+                                     
+
+                // تحويل كل Session إلى SessionDetailsVM
+                return  sessions.Select(s => s.ToDetails()).ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
 
 

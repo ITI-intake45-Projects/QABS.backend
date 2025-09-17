@@ -40,6 +40,8 @@ namespace QABS.Repository
             string? studentId = "" ,
             string? teacherId = "",
             DateTime? startdate = null,
+            int? day = null,
+            EnrollmentStatus? status = null,
             bool descending = false,
             int pageSize = 10,
             int pageIndex = 1)
@@ -56,7 +58,27 @@ namespace QABS.Repository
                     predicate = predicate.And(m => m.TeacherId == teacherId);
 
                 if (startdate.HasValue)
-                    predicate = predicate.And(m => m.StartDate.Date == startdate.Value.Date);
+                {
+                    var year = startdate.Value.Year;
+                    var month = startdate.Value.Month;
+
+                    // دايماً بالسنة والشهر
+                    predicate = predicate.And(m => m.StartDate.Year == year && m.StartDate.Month == month);
+
+                    // لو اليوم اتبعت
+                    if (day.HasValue)
+                    {
+                        predicate = predicate.And(m => m.StartDate.Day == day.Value);
+                    }
+
+                    
+                }
+
+                if (status.HasValue)
+                    predicate = predicate.And(m => m.Status == status.Value);
+
+
+
 
                 return await SearchAsync(predicate, m => m.StartDate, m => m.ToList(), false, pageSize, pageIndex);
             }

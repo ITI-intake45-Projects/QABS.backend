@@ -13,7 +13,7 @@ namespace QABS.Repository
         {
 
         }
-        public async Task<PaginationVM<StudentDetailsVM>> SearchStudents(
+        public async Task<PaginationVM<StudentListMoreInfoVM>> SearchStudents(
           string name = "",
           bool descending = false,
           int pageSize = 10,
@@ -30,7 +30,7 @@ namespace QABS.Repository
                     filter = r => r.User.FirstName.Contains(name) || r.User.LastName.Contains(name);
                 }
 
-                return await SearchAsync(filter, t => t.UserId, t => t.ToDetails(), false, pageSize, pageIndex);
+                return await SearchAsync(filter, t => t.UserId, t => t.ToListMore(), false, pageSize, pageIndex);
             }
             catch
             {

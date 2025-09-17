@@ -17,19 +17,19 @@ namespace QABS.Models
             builder.HasMany(t => t.Enrollments)
                 .WithOne(en => en.Teacher)
                 .HasForeignKey(en => en.TeacherId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasMany(t => t.TeachersPayouts)
                 .WithOne(tp => tp.Teacher)
                 .HasForeignKey(tp => tp.TeacherId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasMany(t => t.TeacherAvailabilities)
                 .WithOne(tA => tA.Teacher)
                 .HasForeignKey(tA => tA.TeacherId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasOne(t => t.User)

@@ -35,7 +35,31 @@ namespace QABS.ViewModels
                 HourlyRate = teacher.HourlyRate,
                 Specializations = teacher.Specializations ?? new List<SpecializationType>(),
                 EnrollmentsCount = teacher.Enrollments?.Count,
-                Availability = teacher.TeacherAvailabilities?.Select(a => a.ToDetails()).ToList()
+                Availability = teacher.TeacherAvailabilities?.Select(a => a.ToDetails()).ToList(),
+                Payouts = teacher.TeachersPayouts?.Select(a => a.ToDetails()).ToList(),
+                
+            };
+        }
+
+        public static StudentListVM ToList(this Student student)
+        {
+            return new StudentListVM
+            {
+                StudentId = student.UserId,
+                FullName = $"{student.User.FirstName} {student.User.LastName}",
+                ProfileImg = student.User.ProfileImg
+            };
+        }
+
+        public static StudentListMoreInfoVM ToListMore(this Student student)
+        {
+            return new StudentListMoreInfoVM
+            {
+                StudentId = student.UserId,
+                FullName = $"{student.User.FirstName} {student.User.LastName}",
+                ProfileImg = student.User.ProfileImg,
+                Age = student.User.Age,
+                Gender = student.User.Gender,
             };
         }
 
@@ -69,14 +93,6 @@ namespace QABS.ViewModels
         {
             return students.Select(s => s.ToDetails()).ToList();
         }
-        public static StudentListVM ToList(this Student student)
-        {
-            return new StudentListVM
-            {
-                StudentId = student.UserId,
-                FullName = $"{student.User.FirstName} {student.User.LastName}",
-                ProfileImg = student.User.ProfileImg
-            };
-        }
+        
     }
 }
