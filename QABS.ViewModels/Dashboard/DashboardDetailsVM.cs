@@ -17,13 +17,15 @@ namespace QABS.ViewModels
             public List<RevenueVsPayoutVM> RevenueVsPayout { get; set; } = new();
             public List<SessionsByStatusVM> SessionsByStatus { get; set; } = new();
             public List<StudentsPerPlanVM> StudentsPerPlan { get; set; } = new();
+            public List<StudentsPerSpecializationVM> StudentsPerSpecialization { get; set; } = new(); // ✅ NEW
 
             // Latest Data
             public List<StudentLatestVM> LatestStudents { get; set; } = new();
             public List<PaymentLatestVM> LatestPayments { get; set; } = new();
-        }
 
-        public class EnrollmentTrendVM
+    }
+
+    public class EnrollmentTrendVM
         {
             public DateTime Month { get; set; }
             public int Count { get; set; }
@@ -48,17 +50,23 @@ namespace QABS.ViewModels
             public int Count { get; set; }
         }
 
-        public class StudentLatestVM
+        public class StudentsPerSpecializationVM
+        {
+            public string Specialization { get; set; }
+            public int Count { get; set; }
+        }
+
+    public class StudentLatestVM
         {
             public string StudentName { get; set; }
-            public string StudentImg { get; set; }
-            public DateTime JoinedAt { get; set; }
+            public string? StudentImg { get; set; }
+            public DateTime? JoinedAt { get; set; }
         }
 
         public class PaymentLatestVM
         {
             public string StudentName { get; set; }
-            public string StudentImg { get; set; }
+            public string? StudentImg { get; set; }
             public decimal Amount { get; set; }
             public DateTime Date { get; set; }
         }

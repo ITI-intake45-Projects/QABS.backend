@@ -55,6 +55,7 @@ builder.Services.AddSwaggerGen(c => {
 
 
 builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<DashboardService>();
 builder.Services.AddScoped<AdminRepository>();
 builder.Services.AddScoped<EnrollmentRepository>();
 builder.Services.AddScoped<StudentRepository>();

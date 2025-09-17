@@ -1,8 +1,10 @@
 ﻿
+using QABS.Models;
+
 namespace QABS.ViewModels
 {
-    public class DashboardExt
+    public static class DashboardExt
     {
-
+        
     }
 }
