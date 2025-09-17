@@ -11,6 +11,8 @@ namespace QABS.ViewModels
         public string LastName { get; set; }
         public Gender? Gender { get; set; }
         public int Age { get; set; }
+
+        public string? phoneNumber { get; set; }
         public string? ProfileImg { get; set; }
         public DateTime? DateCreated { get; set; }
         public DateTime? LastLoginDate { get; set; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QABS.Models;
 using QABS.Service;
@@ -9,6 +10,8 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class EnrollmentController : ControllerBase
     {
         private readonly EnrollmentService enrollmentService;

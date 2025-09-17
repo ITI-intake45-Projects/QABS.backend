@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QABS.Service;
 using QABS.ViewModels;
@@ -7,6 +8,8 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class SubscribtionPlanController : ControllerBase
     {
         private readonly SubscribtionPlanService _subscribtionPlanService;

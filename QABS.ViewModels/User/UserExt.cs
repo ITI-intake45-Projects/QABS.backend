@@ -11,11 +11,13 @@ namespace QABS.ViewModels
             {
                 FirstName = viewmodel.FirstName,
                 LastName = viewmodel.LastName,
+                PhoneNumber = viewmodel.PhoneNumber,
                 Email = viewmodel.Email,
                 Gender = viewmodel.Gender,
                 Age = viewmodel.Age,
                 ProfileImg = viewmodel.ProfileImg,
                 DateCreated = DateTime.UtcNow,
+
 
             };
         }
@@ -33,6 +35,7 @@ namespace QABS.ViewModels
                 DateCreated = teacher.User.DateCreated,
                 LastLoginDate = teacher.User.LastLoginDate,
                 HourlyRate = teacher.HourlyRate,
+                phoneNumber = teacher.User.PhoneNumber,
                 Specializations = teacher.Specializations ?? new List<SpecializationType>(),
                 EnrollmentsCount = teacher.Enrollments?.Count,
                 Availability = teacher.TeacherAvailabilities?.Select(a => a.ToDetails()).ToList(),
@@ -81,6 +84,7 @@ namespace QABS.ViewModels
                 LastName = student.User.LastName,
                 Gender = student.User.Gender,
                 Age = student.User.Age,
+                phoneNumber = student.User.PhoneNumber,
                 ProfileImg = student.User.ProfileImg,
                 DateCreated = student.User.DateCreated,
                 LastLoginDate = student.User.LastLoginDate,
@@ -88,10 +92,6 @@ namespace QABS.ViewModels
                 
 
             };
-        }
-        public static List<StudentDetailsVM> ToDetails(this List<Student> students)
-        {
-            return students.Select(s => s.ToDetails()).ToList();
         }
         
     }
