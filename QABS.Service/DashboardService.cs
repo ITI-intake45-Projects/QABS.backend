@@ -31,7 +31,10 @@ namespace QABS.Service
                 dashboard.TotalTeachers = teachers.Count;
                 dashboard.ActiveEnrollments = enrollments.Count(e => e.Status == EnrollmentStatus.Active);
                 dashboard.TotalRevenue = payments.Sum(p => p.Amount);
-                dashboard.TotalTeacherPayout = teachers.Sum(t => (t.TeachersPayouts?.Sum(p => p.TotalAmount) ?? 0m)); // Assuming Teacher has PayoutAmount
+                dashboard.TotalTeacherPayout = teachers
+                .SelectMany(t => t.TeachersPayouts)  // يجيب كل payouts من كل المدرسين
+                .Sum(p => p.TotalAmount);
+                // Assuming Teacher has PayoutAmount
 
                 // ---------- Enrollment Trends ----------
                 foreach (var e in enrollments)
@@ -47,6 +50,9 @@ namespace QABS.Service
                 dashboard.EnrollmentTrends = dashboard.EnrollmentTrends.OrderBy(t => t.Month).ToList();
 
                 // ---------- Revenue vs Payout ----------
+                // ---------- Revenue vs Payout ----------
+
+                // Revenue
                 foreach (var p in payments)
                 {
                     var month = new DateTime(p.PaymentDate.Year, p.PaymentDate.Month, 1);
@@ -58,7 +64,7 @@ namespace QABS.Service
                         {
                             Month = month,
                             Revenue = p.Amount,
-                            Payout = 0 // fill later from teacher payouts if you track monthly
+                            Payout = 0
                         });
                     }
                     else
@@ -66,6 +72,29 @@ namespace QABS.Service
                         existing.Revenue += p.Amount;
                     }
                 }
+
+                // Payout
+                var payouts = teachers.SelectMany(t => t.TeachersPayouts).ToList();
+                foreach (var payout in payouts)
+                {
+                    var month = new DateTime(payout.PaidAt.Year, payout.PaidAt.Month, 1); // 👈 لازم TeacherPayout يكون فيه تاريخ دفع
+                    var existing = dashboard.RevenueVsPayout.FirstOrDefault(r => r.Month == month);
+
+                    if (existing == null)
+                    {
+                        dashboard.RevenueVsPayout.Add(new RevenueVsPayoutVM
+                        {
+                            Month = month,
+                            Revenue = 0,
+                            Payout = payout.TotalAmount
+                        });
+                    }
+                    else
+                    {
+                        existing.Payout += payout.TotalAmount;
+                    }
+                }
+
 
                 // ---------- Sessions by Status ----------
                 foreach (var s in sessions)

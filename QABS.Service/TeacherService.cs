@@ -36,6 +36,7 @@ namespace QABS.Service
             }
         }
 
+        //Teacher List 
         public async Task<ServiceResult<List<TeacherListVM>>> GetAllTeacherList()
         {
             try
@@ -51,17 +52,38 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult<PaginationVM<TeacherDetailsVM>>> GetTeachersByName(string name)
+        //Teacher List More Info
+        public async Task<ServiceResult<List<TeacherListMoreInfoVM>>> GetAllTeacherListMore()
         {
             try
             {
-                var teachers = await _unitOfWork._teacherRepository.SearchTeachers(name);
-                return ServiceResult<PaginationVM<TeacherDetailsVM>>.SuccessResult(teachers, "Teachers retrieved successfully.");
+                var teachers = await _unitOfWork._teacherRepository.GetAllAsync();
+                var result = teachers.Select(t => t.ToListMore()).ToList();
+                return ServiceResult<List<TeacherListMoreInfoVM>>.SuccessResult(result, "Teachers retrieved successfully.");
             }
             catch (Exception ex)
             {
                 // Log the exception or handle it as needed
-                return ServiceResult<PaginationVM<TeacherDetailsVM>>.FailureResult(ex.Message);
+                return ServiceResult<List<TeacherListMoreInfoVM>>.FailureResult(ex.Message);
+            }
+        }
+
+        public async Task<ServiceResult<TeacherDetailsVM>> GetTeacherById(string teacherId)
+        {
+            try
+            {
+                var teacher = await _unitOfWork._teacherRepository.GetByIdAsync(teacherId);
+                if(teacher == null)
+                {
+                    return ServiceResult<TeacherDetailsVM>.FailureResult("Teacher not found");
+                }
+                var restult = teacher.ToDetails();
+                return ServiceResult<TeacherDetailsVM>.SuccessResult(restult, "Teacher retrieved successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                return ServiceResult<TeacherDetailsVM>.FailureResult(ex.Message);
             }
         }
 

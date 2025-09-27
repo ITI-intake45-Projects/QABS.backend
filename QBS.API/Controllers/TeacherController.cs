@@ -8,7 +8,7 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class TeacherController : ControllerBase
     {
@@ -39,11 +39,22 @@ namespace QABS.API.Controllers
             return new JsonResult(result);
         }
 
-
-        [HttpGet("GetTeachersByName/{name}")]
-        public async Task<IActionResult> GetTeachersByName(string name)
+        [HttpGet("GetAllTeacherListMoreInfo")]
+        public async Task<IActionResult> GetAllTeacherListMore()
         {
-            var result = await teacherService.GetTeachersByName(name);
+            var result = await teacherService.GetAllTeacherListMore();
+            if (result.IsSuccess)
+            {
+                return new JsonResult(result);
+            }
+            return new JsonResult(result);
+        }
+
+
+        [HttpGet("GetTeacherById/{teacherId}")]
+        public async Task<IActionResult> GetTeacherById(string teacherId)
+        {
+            var result = await teacherService.GetTeacherById(teacherId);
             if (result.IsSuccess)
             {
                 return new JsonResult(result);

@@ -8,7 +8,7 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class StudentController : ControllerBase
     {
@@ -119,9 +119,11 @@ namespace QABS.API.Controllers
         }
 
         [HttpPut("EditStudentPaymentStatus")]
-        public async Task<IActionResult> EditStudentPaymentStatus([FromBody] StudentPaymentEditVM vm)
+        public async Task<IActionResult> EditStudentPaymentStatus([FromBody] int studentPaymentId)
         {
-            var result = await studentService.EditStudentPaymentStatus(vm);
+
+            
+            var result = await studentService.EditStudentPaymentStatus(studentPaymentId);
             if (result.IsSuccess)
             {
                 return new JsonResult(result);

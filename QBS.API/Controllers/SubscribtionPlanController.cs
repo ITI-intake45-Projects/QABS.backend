@@ -8,7 +8,7 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class SubscribtionPlanController : ControllerBase
     {

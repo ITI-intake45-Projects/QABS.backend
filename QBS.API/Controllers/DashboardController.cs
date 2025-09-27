@@ -7,7 +7,7 @@ namespace QABS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class DashboardController : ControllerBase
     {
         private readonly DashboardService dashboardService;

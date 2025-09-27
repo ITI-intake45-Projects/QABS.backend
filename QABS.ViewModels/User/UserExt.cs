@@ -50,7 +50,8 @@ namespace QABS.ViewModels
             {
                 StudentId = student.UserId,
                 FullName = $"{student.User.FirstName} {student.User.LastName}",
-                ProfileImg = student.User.ProfileImg
+                ProfileImg = student.User.ProfileImg,
+
             };
         }
 
@@ -72,7 +73,19 @@ namespace QABS.ViewModels
             {
                 TeacherId = teacher.UserId,
                 FullName = $"{teacher.User.FirstName} {teacher.User.LastName}",
-                ProfileImg = teacher.User.ProfileImg
+                ProfileImg = teacher.User.ProfileImg,
+                //EnrollmentsCount = teacher.Enrollments?.Count,
+            };
+        }
+        public static TeacherListMoreInfoVM ToListMore(this Teacher teacher)
+        {
+            return new TeacherListMoreInfoVM
+            {
+                TeacherId = teacher.UserId,
+                FullName = $"{teacher.User.FirstName} {teacher.User.LastName}",
+                ProfileImg = teacher.User.ProfileImg,
+                EnrollmentsCount = teacher.Enrollments?.Count,
+                Specializations = teacher.Specializations ?? new List<SpecializationType>(),
             };
         }
         public static StudentDetailsVM ToDetails(this Student student)

@@ -153,7 +153,7 @@ app.UseHangfireDashboard("/hangfire");
 RecurringJob.AddOrUpdate<SessionService>(
     "HangFireUpdateSessions",
     s => s.HangFireUpdateSessions(),
-    Cron.Daily);
+    Cron.Minutely);
 
 RecurringJob.AddOrUpdate<EnrollmentService>(
     "HangFireUpdateEnrollments",

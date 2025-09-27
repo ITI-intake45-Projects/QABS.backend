@@ -3,6 +3,7 @@ using QABS.Repository;
 using QABS.ViewModels;
 using System.Data.Entity;
 using Utilities;
+using QABS.Models;
 
 namespace QABS.Service
 {
@@ -158,18 +159,20 @@ namespace QABS.Service
             }
         }
 
-        public async Task<ServiceResult> EditStudentPaymentStatus(StudentPaymentEditVM vm)
+        public async Task<ServiceResult> EditStudentPaymentStatus(int id)
         {
             try
             {
-                var studentPayment = await _unitOfWork._studentPaymentRepository.GetByIdAsync(vm.Id);
+                var studentPayment = await _unitOfWork._studentPaymentRepository.GetByIdAsync(id);
 
                 if (studentPayment == null)
                 {
                     return ServiceResult.FailureResult("Student payment not found.");
                 }
+                studentPayment.Status = StudentPaymentStatus.Recieved;
 
-                await _unitOfWork._studentPaymentRepository.UpdateAsync(vm.ToEdit(studentPayment));
+
+                await _unitOfWork._studentPaymentRepository.UpdateAsync(studentPayment);
                 await _unitOfWork.SaveChangesAsync();
 
                 return ServiceResult.SuccessResult("Student payment status updated successfully.");
